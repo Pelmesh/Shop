@@ -23,6 +23,14 @@
         <link rel="stylesheet" href="/css/style.css">
     </head>
     <body id="home">
+<#--        <div class="preloader-cover">-->
+<#--            <div class="preloader">-->
+<#--                <span></span>-->
+<#--                <span></span>-->
+<#--                <span></span>-->
+<#--                <span></span>-->
+<#--            </div>-->
+<#--        </div>-->
     <#nested>
     </body>
     <script src="/js/jquery-2.2.4.min.js"></script>

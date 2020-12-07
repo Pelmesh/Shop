@@ -25,6 +25,11 @@ public class TshirtServiceImpl implements TshirtService {
     }
 
     @Override
+    public List<Tshirt> findByTemplateAllSee(boolean b) {
+        return tshirtRepository.findByTemplateAllSee(b);
+    }
+
+    @Override
     public Optional<Tshirt> findById(Long id) {
         return tshirtRepository.findById(id);
     }

@@ -9,28 +9,28 @@
                 <div class="col-8 col-md-5">
                     <!--===== SLIDER-SINGLE-FOR =====-->
                     <div class="slider-single-for">
-                        <img src="${tShirt.url}">
+                        <img src="${tShirt.template.url}">
                     </div>
                     <!--=== SLIDER-SINGLE-FOR END ===-->
                 </div>
                     <div class="col-12 col-md-7 single-shop-left">
-                        <h2 class="title">${tShirt.name}</h2>
-                        <p>${tShirt.gender}</p>
+                        <h2 class="title">${tShirt.template.name}</h2>
+                        <p>${tShirt.template.gender}</p>
                         <div class="single-price mt-3">
-                            <#if tShirt.discount == true>
-                                <div class="new-price">${tShirt.discountPrice}</div>
-                                <div class="old-price">${tShirt.price}</div>
+                            <#if tShirt.template.discount == true>
+                                <div class="new-price">${tShirt.template.discountPrice}</div>
+                                <div class="old-price">${tShirt.template.price}</div>
                             <#else>
-                                <div class="new-price">${tShirt.price}</div>
+                                <div class="new-price">${tShirt.template.price}</div>
                             </#if>
                         </div>
-                        <p>${tShirt.description!}</p>
+                        <p>${tShirt.template.description!}</p>
                         <div class="wheel-size mt-3">
                             <label>Size:</label>
                             <ul>
-                                <li class="active" onclick="getSize('M')">M</li>
-                                <li onclick="getSize('L')">L</li>
-                                <li onclick="getSize('S')">S</li>
+                                <#list sizes as size>
+                                <li onclick="getSize('${size.size}')">${size.size}</li>
+                                </#list>
                             </ul>
                             <input type="hidden" value="M" name="size" id="size"/>
                         </div>

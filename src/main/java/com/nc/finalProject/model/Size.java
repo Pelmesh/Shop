@@ -11,22 +11,36 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "comments")
-public class Comment {
+@Table(name = "size")
+public class Size {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String message;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "user_id")
-    private User author;
+    private EnumSize size;
+    private int count;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "tshirt_id")
     private Tshirt tshirt;
+
+    public Size() {
+    }
+
+    public Size(Tshirt tShirt, EnumSize size, int count) {
+        this.size = size;
+        this.tshirt = tShirt;
+        this.count = count;
+    }
+
+    public EnumSize getSize() {
+        return size;
+    }
+
+    public void setSize(EnumSize size) {
+        this.size = size;
+    }
 
     public Long getId() {
         return id;
@@ -36,20 +50,12 @@ public class Comment {
         this.id = id;
     }
 
-    public String getMessage() {
-        return message;
+    public int getCount() {
+        return count;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public Tshirt getTshirt() {

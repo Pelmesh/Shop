@@ -1,12 +1,18 @@
 package com.nc.finalProject.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tshirts")
@@ -16,23 +22,18 @@ public class Tshirt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
-    private String url;
-
-    private String description;
-
-    private String gender;
-
-    private boolean discount;
-
-    private double price;
-
-    private double discountPrice;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<Comment> comments;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Size> sizes;
+
+    @OneToOne
+    private Template template;
 
     public Long getId() {
         return id;
@@ -42,67 +43,35 @@ public class Tshirt {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public boolean isDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(boolean discount) {
-        this.discount = discount;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public double getDiscountPrice() {
-        return discountPrice;
-    }
-
-    public void setDiscountPrice(double discountPrice) {
-        this.discountPrice = discountPrice;
-    }
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Size> getSizes() {
+        return sizes;
+    }
+
+    public void setSizes(List<Size> sizes) {
+        this.sizes = sizes;
+    }
+
+    public Template getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(Template template) {
+        this.template = template;
     }
 }

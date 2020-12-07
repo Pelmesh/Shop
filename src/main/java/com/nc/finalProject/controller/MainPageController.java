@@ -13,7 +13,7 @@ public class MainPageController {
 
     @GetMapping
     public String getMain(Model model){
-        model.addAttribute("tShirts", tShirtService.findAll());
+        model.addAttribute("tShirts", tShirtService.findByTemplateAllSee(true));
         return "main";
     }
 

@@ -8,25 +8,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "comments")
-public class Comment {
+@Table(name = "item")
+public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String message;
-
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "user_id")
-    private User author;
+    @JoinColumn(name = "order_id")
+    private Order order;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "tshirt_id")
+    @OneToOne
     private Tshirt tshirt;
+
+    private String size;
 
     public Long getId() {
         return id;
@@ -36,20 +36,12 @@ public class Comment {
         this.id = id;
     }
 
-    public String getMessage() {
-        return message;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public Tshirt getTshirt() {
@@ -58,5 +50,13 @@ public class Comment {
 
     public void setTshirt(Tshirt tshirt) {
         this.tshirt = tshirt;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 }

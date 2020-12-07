@@ -6,10 +6,10 @@
 <form action="" method="post">
     <div class="container mt-5">
         <div class="row">
-            <div class="col-8 col-md-5">
+            <div class="col-12 col-md-5">
                 <!--===== SLIDER-SINGLE-FOR =====-->
-                <div class="slider-single-for">
-                    <canvas id="canvas" width="500px" height="500px"></canvas>
+                <div class="slide-single-for">
+                    <canvas id="canvas"   width="500px" height="500px"></canvas>
                 </div>
                 <!--=== SLIDER-SINGLE-FOR END ===-->
             </div>
@@ -21,28 +21,24 @@
                 <h2 class="title">Text color -
                     <input type="color" class="" id="favcolor">
                 </h2>
-                <h2 class="title">Gender -
-                    <select id="gender" onclick="sex()"  class="btn" name="gender">
-                        <option value="MALE" class="btn">Man</option>
-                        <option value="FEMALE" class="btn">Woman</option>
-                    </select>
-                </h2>
-                <div class="row ml-0">
-                    <div>
-                        <label class="custom-file-upload btn">
-                            <input type="file" id="file" />
-                            <i class="fa fa-cloud-upload"></i>Upload image
-                        </label>
-                    </div>
-                    <div class="ml-2">
-                        <button class="btn" onclick="addText()" type="button"><span>Add text</span></button>
-                    </div>
-                    <div class="ml-2">
-                        <button class="btn btn-wishlist" onclick="deleteObject()" type="button"><span>Delete selected object</span></button>
-                    </div>
-                    <div class="ml-2">
-                        <button class="btn btn-green" onclick="save()" type="button"><span>Save</span></button>
-                    </div>
+                <label>Type</label>
+                <select id="gender" onclick="sex()"  class="nice-select" name="gender">
+                    <option value="MALE" class="btn">Man</option>
+                    <option value="FEMALE" class="btn">Woman</option>
+                </select>
+                <label>Who can view</label>
+                <select class="nice-select" name="allSee">
+                    <option value="1" class="btn">All</option>
+                    <option value="0" class="btn">Only me</option>
+                </select>
+                <div class="single-btn-cover">
+                    <label class="custom-file-upload btn mr-2">
+                        <input type="file" id="file" />
+                        <i class="fa fa-cloud-upload"></i>Upload image
+                    </label>
+                    <button class="btn mr-2" onclick="text()"><span>Add text</span></button>
+                    <button class="btn btn-wishlist mr-2" onclick="deleteObject()"><span>Delete selected object</span></button>
+                    <button class="btn btn-green mr-2 mt-2" onclick="save()"><span>Save</span></button>
                 </div>
                 <h2 class="title mt-5">Description
                     <ul class="form-cover">
@@ -74,7 +70,7 @@
         reader.onload = function (f) {
             var data = f.target.result;
             fabric.Image.fromURL(data, function (img) {
-                var oImg = img.set({left: 0, top: 0, angle: 0, opacity: 0.85}).scale(0.9);
+                var oImg = img.set({left: 100, top: 100, angle: 0, opacity: 0.85}).scale(0.9);
                 canvas.add(oImg).renderAll();
                 var a = canvas.setActiveObject(oImg);
                 var dataURL = canvas.toDataURL({format: 'png', quality: 0.8});

@@ -11,6 +11,8 @@ public interface TshirtService {
 
     List<Tshirt> findAll();
 
+    List<Tshirt> findByTemplateAllSee(boolean b);
+
     Optional<Tshirt> findById(Long id);
 
 }
