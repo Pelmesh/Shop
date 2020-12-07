@@ -11,6 +11,7 @@ import com.nc.finalProject.service.CommentService;
 import com.nc.finalProject.service.SizeService;
 import com.nc.finalProject.service.TemplateService;
 import com.nc.finalProject.service.TshirtService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,9 @@ import java.util.Map;
 @Controller
 @RequestMapping
 public class TshirtController {
+
+    private static final Logger LOGGER = Logger.getLogger(TshirtController.class);
+
     @Autowired
     private TshirtService tShirtService;
 
@@ -58,6 +62,7 @@ public class TshirtController {
         templateService.create(template);
         tShirt.setTemplate(template);
         tShirtService.create(tShirt);
+        LOGGER.info("Tshirt created id:" + tShirt.getId());
         setSize(tShirt);
         return "create";
     }
