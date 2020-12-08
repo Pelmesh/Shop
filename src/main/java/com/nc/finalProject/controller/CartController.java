@@ -1,6 +1,7 @@
 package com.nc.finalProject.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.nc.finalProject.model.Cart;
 import com.nc.finalProject.model.Size;
 import com.nc.finalProject.model.Tshirt;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,9 +33,6 @@ import java.util.List;
 @RequestMapping("cart")
 public class CartController {
     @Autowired
-    private TshirtService tshirtService;
-
-    @Autowired
     private SizeService sizeService;
 
     @Autowired
@@ -45,7 +42,6 @@ public class CartController {
     public String getCart(@AuthenticationPrincipal User user,
                           @CookieValue(value = "cartList", required = false) Cookie cookie,
                           Model model) throws UnsupportedEncodingException {
-        double price = 0;
         if (user != null) {
             model.addAttribute("cartList", cartService.findAllByUser(user));
         } else {
@@ -95,18 +91,13 @@ public class CartController {
     }
 
     @GetMapping("tshirt/hay")
-    public String addToCartd(
-            @AuthenticationPrincipal User user, HttpServletRequest request,
-            HttpServletResponse res,
-            @CookieValue(value = "cartList", required = false) Cookie cookieName) throws UnsupportedEncodingException {
-//        Cookie[] cookies = request.getCookies();
-//        String s = cookieName.getValue();
-//        s = URLDecoder.decode(cookieName.getValue(), "UTF-8");
-//        List<Cart> cartList = new Gson().fromJson(s, List.class);
-        List<Cart> list = cartService.findAllByUser(user);
+    public String addToCartd(@CookieValue(value = "cartList", required = false) Cookie cookieName) throws UnsupportedEncodingException {
+
+        String s = URLDecoder.decode(cookieName.getValue(), "UTF-8");
+        java.lang.reflect.Type type = new TypeToken<List<Cart>>(){}.getType();
+        List<Cart> cartList = new Gson().fromJson(s, type);
+        System.out.println(cartList.get(0).getTshirt().getTemplate().getPrice());
         return "tshirt";
     }
-
-
 }
 

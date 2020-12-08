@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "item")
+@Table(name = "items")
 public class Item {
 
     @Id
@@ -27,6 +27,14 @@ public class Item {
     private Tshirt tshirt;
 
     private String size;
+
+    public Item(){}
+
+    public Item(Tshirt tshirt, String size, Order order){
+        this.tshirt = tshirt;
+        this.size = size;
+        this.order = order;
+    }
 
     public Long getId() {
         return id;
