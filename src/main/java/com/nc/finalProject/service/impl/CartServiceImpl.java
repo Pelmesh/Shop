@@ -1,10 +1,13 @@
 package com.nc.finalProject.service.impl;
 
 import com.nc.finalProject.model.Cart;
+import com.nc.finalProject.model.User;
 import com.nc.finalProject.repo.CartRepository;
 import com.nc.finalProject.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -14,5 +17,10 @@ public class CartServiceImpl implements CartService {
     @Override
     public Cart create(Cart cart) {
         return cartRepository.save(cart);
+    }
+
+    @Override
+    public List<Cart> findAllByUser(User user) {
+        return cartRepository.findByUser(user);
     }
 }

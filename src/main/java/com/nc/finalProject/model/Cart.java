@@ -19,15 +19,22 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Tshirt tshirt;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Size size;
+
+    public Cart(){}
+
+    public Cart(Tshirt tShirt, Size size) {
+        this.tshirt = tShirt;
+        this.size = size;
+    }
 
     public Long getId() {
         return id;

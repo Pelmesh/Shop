@@ -15,7 +15,7 @@
                     <ul class="icon-right-list">
                         <li><a class="header-like" href="#"><i class="fa fa-heart" aria-hidden="true"></i></a></li>
                         <li><a class="header-user" href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
-                        <li><a class="header-cart header-like" href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i><span>6</span></a></li>
+                        <li><a class="header-cart header-like" href="/cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i><span>${countCart!}</span></a></li>
                     </ul>
                 </div>
             </div>

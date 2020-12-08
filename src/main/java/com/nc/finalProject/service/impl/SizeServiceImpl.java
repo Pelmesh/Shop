@@ -23,4 +23,9 @@ public class SizeServiceImpl implements SizeService {
     public List<Size> findByTshirt(Tshirt tshirt) {
         return sizeRepository.findByTshirt(tshirt);
     }
+
+    @Override
+    public Size findByTshirtAndSize(Tshirt tshirt, String size) {
+        return sizeRepository.findByTshirtAndSize(tshirt, size);
+    }
 }

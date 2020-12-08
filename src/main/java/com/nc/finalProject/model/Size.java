@@ -18,7 +18,7 @@ public class Size {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private EnumSize size;
+    private String size;
     private int count;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
@@ -29,16 +29,16 @@ public class Size {
     }
 
     public Size(Tshirt tShirt, EnumSize size, int count) {
-        this.size = size;
+        this.size = size.name();
         this.tshirt = tShirt;
         this.count = count;
     }
 
-    public EnumSize getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(EnumSize size) {
+    public void setSize(String size) {
         this.size = size;
     }
 

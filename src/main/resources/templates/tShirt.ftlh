@@ -3,7 +3,7 @@
 
 <@c.page>
     <@h.page/>
-    <form method="post">
+    <form method="post" action="/cart/${tShirt.id}">
         <div class="container mt-5">
             <div class="row">
                 <div class="col-8 col-md-5">
@@ -35,8 +35,7 @@
                             <input type="hidden" value="M" name="size" id="size"/>
                         </div>
                         <div class="single-btn-cover">
-                            <button type="submit" class="btn btn-buy-now"><span>buy now</span></button>
-                            <button class="btn btn-wishlist"><span>add to wishlist</span></button>
+                            <button type="submit" class="btn btn-buy-now"><span>Add to Cart</span></button>
                         </div>
                     </div>
             </div>

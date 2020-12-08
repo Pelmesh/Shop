@@ -11,4 +11,6 @@ public interface SizeService {
 
     List<Size> findByTshirt(Tshirt tshirt);
 
+    Size findByTshirtAndSize(Tshirt tshirt, String size);
+
 }
