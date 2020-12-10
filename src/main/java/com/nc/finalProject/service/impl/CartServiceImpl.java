@@ -7,7 +7,6 @@ import com.nc.finalProject.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import java.util.List;
 
 @Service
@@ -26,7 +25,17 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public Cart findByUserAndTshirt_id(User user, Long id) {
+        return cartRepository.findByUserAndTshirt_Id(user, id);
+    }
+
+    @Override
     public void deleteAll(List<Cart> cartList) {
         cartRepository.deleteAll(cartList);
+    }
+
+    @Override
+    public void delete(Cart cart) {
+        cartRepository.delete(cart);
     }
 }

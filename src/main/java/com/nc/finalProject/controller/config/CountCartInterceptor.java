@@ -1,6 +1,7 @@
 package com.nc.finalProject.controller.config;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.nc.finalProject.model.Cart;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,13 +34,14 @@ public class CountCartInterceptor extends HandlerInterceptorAdapter {
             } else {
                 modelAndView.addObject("countCart", 0);
             }
-        } else {
         }
     }
 
     private int setCount(Cookie cookie) throws UnsupportedEncodingException {
         String json = URLDecoder.decode(cookie.getValue(), "UTF-8");
-        List<Cart> cartList = new Gson().fromJson(json, List.class);
+        java.lang.reflect.Type type = new TypeToken<List<Cart>>() {
+        }.getType();
+        List<Cart> cartList = new Gson().fromJson(json, type);
         return cartList.size();
     }
 }

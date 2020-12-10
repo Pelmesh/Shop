@@ -66,7 +66,16 @@
                                     </#if>
                                 </div>
                                 <div class="row">
-                                    <div class="col-8"><a href="single-shop.html" class="btn"><span>buy now</span></a></div>
+                                    <div class="col-8">
+<#--                                        <form action="cart/${tShirt.id}" method="post">-->
+<#--                                            <button type="submit" class="btn btn-delete"><span>Delete</span></button>-->
+<#--                                            <input type="hidden" name="_method" value="DELETE"/>-->
+<#--                                        </form>-->
+                                        <form action="cart/${tShirt.tshirt.id}" method="post">
+                                            <button type="submit" class="btn btn-delete"><span>Delete</span></button>
+                                            <input type="hidden" name="_method" value="DELETE"/>
+                                        </form>
+                                    </div>
                                     <div class="col-4 text-right">size <h5>${tShirt.tshirt.size.size}</h5></div>
                                 </div>
                             </div>
