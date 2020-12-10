@@ -9,27 +9,27 @@
                 <div class="col-8 col-md-5">
                     <!--===== SLIDER-SINGLE-FOR =====-->
                     <div class="slider-single-for">
-                        <img src="${tShirt.template.url}">
+                        <img src="${tShirt.url}">
                     </div>
                     <!--=== SLIDER-SINGLE-FOR END ===-->
                 </div>
                     <div class="col-12 col-md-7 single-shop-left">
-                        <h2 class="title">${tShirt.template.name}</h2>
-                        <p>${tShirt.template.gender}</p>
+                        <h2 class="title">${tShirt.name}</h2>
+                        <p>${tShirt.gender}</p>
                         <div class="single-price mt-3">
-                            <#if tShirt.template.discount == true>
-                                <div class="new-price">${tShirt.template.discountPrice}</div>
-                                <div class="old-price">${tShirt.template.price}</div>
+                            <#if tShirt.discount == true>
+                                <div class="new-price">${tShirt.discountPrice}</div>
+                                <div class="old-price">${tShirt.price}</div>
                             <#else>
-                                <div class="new-price">${tShirt.template.price}</div>
+                                <div class="new-price">${tShirt.price}</div>
                             </#if>
                         </div>
-                        <p>${tShirt.template.description!}</p>
+                        <p>${tShirt.description!}</p>
                         <div class="wheel-size mt-3">
                             <label>Size:</label>
                             <ul>
                                 <#list sizes as size>
-                                <li onclick="getSize('${size.size}')">${size.size}</li>
+                                    <li onclick="getSize('${size.size}')">${size.size}</li>
                                 </#list>
                             </ul>
                             <input type="hidden" value="M" name="size" id="size"/>
@@ -55,7 +55,7 @@
                 </div>
             </div>
         </div>
-        
+
         <form action="/comment/${tShirt.id}" method="post">
         <div class="reviews-form">
             <h2 class="title">Leave a Comment</h2>
@@ -82,6 +82,7 @@ blockquote{
 
 <script>
     function getSize(size){
+        console.log(size)
         document.getElementById('size').value= size;
     }
 

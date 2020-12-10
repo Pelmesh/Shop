@@ -32,7 +32,7 @@ public class RegistrationController {
         User userRepeat = userService.findByUsername(user.getUsername());
         if (userRepeat != null) {
             model.addAttribute("message", "User exist!");
-            model.addAttribute("owner", user);
+            model.addAttribute("user", user);
             return "registration";
         }
         user.setRoles(Collections.singleton(Role.USER));

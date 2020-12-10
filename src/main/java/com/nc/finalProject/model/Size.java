@@ -6,12 +6,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
-@Table(name = "size")
+@Table(name = "sizes")
 public class Size {
 
     @Id
@@ -19,19 +19,16 @@ public class Size {
     private Long id;
 
     private String size;
-    private int count;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "tshirt_id")
-    private Tshirt tshirt;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "size", cascade = CascadeType.ALL)
+    private List<Tshirt> tshirts;
 
-    public Size() {
+    public Long getId() {
+        return id;
     }
 
-    public Size(Tshirt tShirt, EnumSize size, int count) {
-        this.size = size.name();
-        this.tshirt = tShirt;
-        this.count = count;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getSize() {
@@ -42,27 +39,11 @@ public class Size {
         this.size = size;
     }
 
-    public Long getId() {
-        return id;
+    public List<Tshirt> getTshirts() {
+        return tshirts;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public Tshirt getTshirt() {
-        return tshirt;
-    }
-
-    public void setTshirt(Tshirt tshirt) {
-        this.tshirt = tshirt;
+    public void setTshirts(List<Tshirt> tshirts) {
+        this.tshirts = tshirts;
     }
 }

@@ -10,4 +10,6 @@ public interface CartService {
     Cart create(Cart cart);
 
     List<Cart> findAllByUser(User user);
+
+    void deleteAll(List<Cart> cartList);
 }

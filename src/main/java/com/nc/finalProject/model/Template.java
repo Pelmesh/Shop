@@ -1,10 +1,15 @@
 package com.nc.finalProject.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "template")
@@ -21,6 +26,15 @@ public class Template {
     private boolean allSee;
     private double price;
     private double discountPrice;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "template")
+    private List<Tshirt> tshirts;
+
+    public Template(){}
 
     public Long getId() {
         return id;
@@ -70,6 +84,14 @@ public class Template {
         this.discount = discount;
     }
 
+    public boolean isAllSee() {
+        return allSee;
+    }
+
+    public void setAllSee(boolean allSee) {
+        this.allSee = allSee;
+    }
+
     public double getPrice() {
         return price;
     }
@@ -86,11 +108,19 @@ public class Template {
         this.discountPrice = discountPrice;
     }
 
-    public boolean isAllSee() {
-        return allSee;
+    public User getUser() {
+        return user;
     }
 
-    public void setAllSee(boolean allSee) {
-        this.allSee = allSee;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Tshirt> getTshirts() {
+        return tshirts;
+    }
+
+    public void setTshirts(List<Tshirt> tshirts) {
+        this.tshirts = tshirts;
     }
 }

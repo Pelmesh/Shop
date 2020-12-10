@@ -9,25 +9,25 @@
                 <div class="col-lg-3 col-md-6 mb-4 mb-lg-0 mt-5">
                     <div class="card shadow-sm border-0 rounded">
                         <div class="card-body p-0">
-                            <#if tShirt.template.discount == true>
+                            <#if tShirt.discount == true>
                                 <div class="sale">Sale</div>
                             </#if>
                             <a href="/tshirt/${tShirt.id}">
-                            <img src="${tShirt.template.url}" alt="" class="w-100 card-img-top">
+                            <img src="${tShirt.url}" alt="" class="w-100 card-img-top">
                             </a>
                             <div class="p-4">
                                 <div class="row">
-                                    <div class="col-8"><h5 class="mb-0">${tShirt.template.name}</h5></div>
-                                    <#if tShirt.template.discount == false>
+                                    <div class="col-8"><h5 class="mb-0">${tShirt.name}</h5></div>
+                                    <#if tShirt.discount == false>
                                         <div class="col-4 text-right">
                                             <h5>
-                                                ${tShirt.template.price}
+                                                ${tShirt.price}
                                             </h5>
                                         </div>
                                     <#else>
                                         <div class="col-4 text-right">
                                             <h5>
-                                                ${tShirt.template.discountPrice}
+                                                ${tShirt.discountPrice}
                                             </h5>
                                         </div>
                                     </#if>
@@ -42,11 +42,11 @@
                                             </#if>
                                         </p>
                                     </div>
-                                    <#if tShirt.template.discount == true>
+                                    <#if tShirt.discount == true>
                                         <div class="col-4 text-right">
                                             <p class="small text-muted">
                                                 <strike>
-                                                    ${tShirt.template.price}
+                                                    ${tShirt.price}
                                                 </strike>
                                             </p>
                                         </div>

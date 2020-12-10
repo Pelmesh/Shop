@@ -1,6 +1,7 @@
 package com.nc.finalProject.service.impl;
 
 import com.nc.finalProject.model.Comment;
+import com.nc.finalProject.model.Template;
 import com.nc.finalProject.model.Tshirt;
 import com.nc.finalProject.repo.CommentRepository;
 import com.nc.finalProject.service.CommentService;
@@ -20,7 +21,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> findByTshirt(Tshirt tshirt) {
-        return commentRepository.findByTshirt(tshirt);
+    public List<Comment> findByTemplate(Template template) {
+        return commentRepository.findByTemplate(template);
     }
 }

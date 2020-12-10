@@ -6,6 +6,8 @@ import com.nc.finalProject.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TemplateServiceImpl implements TemplateService {
     @Autowired
@@ -14,5 +16,10 @@ public class TemplateServiceImpl implements TemplateService {
     @Override
     public Template create(Template template) {
         return templateRepository.save(template);
+    }
+
+    @Override
+    public List<Template> findByAllSeeTrue() {
+        return templateRepository.findByAllSeeTrue();
     }
 }

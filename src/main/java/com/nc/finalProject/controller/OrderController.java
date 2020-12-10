@@ -10,6 +10,7 @@ import com.nc.finalProject.model.User;
 import com.nc.finalProject.service.CartService;
 import com.nc.finalProject.service.ItemService;
 import com.nc.finalProject.service.OrderService;
+import com.nc.finalProject.service.TshirtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -35,10 +37,14 @@ public class OrderController {
     @Autowired
     private CartService cartService;
 
+    @Autowired
+    private TshirtService tshirtService;
+
     @PostMapping
     public String saveOrder(@AuthenticationPrincipal User user,
                             @CookieValue(value = "cartList", required = false) Cookie cookie,
-                            Order order) throws UnsupportedEncodingException {
+                            Order order,
+                            HttpServletResponse res) throws UnsupportedEncodingException {
         List<Item> itemList;
         order.setStatus(Status.PROCESSED.name());
         if (user != null) {
@@ -48,6 +54,9 @@ public class OrderController {
         } else {
             orderService.create(order);
             itemList = getListItemsFromCookies(order, cookie);
+            Cookie removeCookie = new Cookie("cartList", "");
+            removeCookie.setMaxAge(0);
+            res.addCookie(removeCookie);
         }
         itemService.create(itemList);
         return "redirect:/";
@@ -55,20 +64,21 @@ public class OrderController {
 
     private List<Item> getListItemsFromCart(User user, Order order) {
         List<Cart> cartList = cartService.findAllByUser(user);
+        cartService.deleteAll(cartList);
         return getItem(cartList, order);
     }
 
     private List<Item> getListItemsFromCookies(Order order, Cookie cookie) throws UnsupportedEncodingException {
-        String s = URLDecoder.decode(cookie.getValue(), "UTF-8");
+        String json = URLDecoder.decode(cookie.getValue(), "UTF-8");
         java.lang.reflect.Type type = new TypeToken<List<Cart>>() {}.getType();
-        List<Cart> cartList = new Gson().fromJson(s, type);
+        List<Cart> cartList = new Gson().fromJson(json, type);
         return getItem(cartList, order);
     }
 
     private List<Item> getItem(List<Cart> cartList, Order order) {
         List<Item> itemList = new ArrayList<>();
         for (Cart cart : cartList) {
-            itemList.add(new Item(cart.getTshirt(), cart.getSize().getSize(), order));
+            itemList.add(new Item(tshirtService.findById((cart.getTshirt().getId())).get(), order));
         }
         return itemList;
     }

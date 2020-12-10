@@ -6,13 +6,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "tshirts")
@@ -21,19 +16,21 @@ public class Tshirt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private int count;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "user_id")
-    private User user;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Size size;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private Set<Comment> comments;
-
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Size> sizes;
-
-    @OneToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Template template;
+
+    public Tshirt(){}
+
+    public Tshirt(Template template, Size size, int count) {
+        this.template = template;
+        this.size = size;
+        this.count = count;
+    }
 
     public Long getId() {
         return id;
@@ -43,28 +40,20 @@ public class Tshirt {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public int getCount() {
+        return count;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCount(int count) {
+        this.count = count;
     }
 
-    public Set<Comment> getComments() {
-        return comments;
+    public Size getSize() {
+        return size;
     }
 
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public List<Size> getSizes() {
-        return sizes;
-    }
-
-    public void setSizes(List<Size> sizes) {
-        this.sizes = sizes;
+    public void setSize(Size size) {
+        this.size = size;
     }
 
     public Template getTemplate() {

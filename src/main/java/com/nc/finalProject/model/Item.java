@@ -19,20 +19,18 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tshirt_id")
     private Tshirt tshirt;
-
-    private String size;
 
     public Item(){}
 
-    public Item(Tshirt tshirt, String size, Order order){
+    public Item(Tshirt tshirt, Order order){
         this.tshirt = tshirt;
-        this.size = size;
         this.order = order;
     }
 
@@ -58,13 +56,5 @@ public class Item {
 
     public void setTshirt(Tshirt tshirt) {
         this.tshirt = tshirt;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
     }
 }

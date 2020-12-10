@@ -20,13 +20,13 @@ public class Comment {
 
     private String message;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User author;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "tshirt_id")
-    private Tshirt tshirt;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "template_id")
+    private Template template;
 
     public Long getId() {
         return id;
@@ -52,11 +52,11 @@ public class Comment {
         this.author = author;
     }
 
-    public Tshirt getTshirt() {
-        return tshirt;
+    public Template getTemplate() {
+        return template;
     }
 
-    public void setTshirt(Tshirt tshirt) {
-        this.tshirt = tshirt;
+    public void setTemplate(Template template) {
+        this.template = template;
     }
 }

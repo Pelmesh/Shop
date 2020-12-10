@@ -53,15 +53,6 @@
 </form>
 </@c.page>
 
-
-
-
-<style type="text/css">
-
-</style>
-
-
-
 <script type="text/javascript">
     var canvas = new fabric.Canvas('canvas');
     document.getElementById('file').addEventListener("change", function (e) {
@@ -143,6 +134,7 @@
     }
 
     function sex(){
+        console.log("fds")
         if($('#gender').val()=='MALE'){
             canvas.setOverlayImage('https://res.cloudinary.com/itr/image/upload/v1555868663/fon_qkezpa.png', canvas.renderAll.bind(canvas));
             canvas.setBackgroundImage('https://res.cloudinary.com/itr/image/upload/v1555868664/white_zkntjk.png', canvas.renderAll.bind(canvas));

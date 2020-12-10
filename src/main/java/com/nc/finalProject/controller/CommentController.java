@@ -1,9 +1,9 @@
 package com.nc.finalProject.controller;
 
 import com.nc.finalProject.model.Comment;
-import com.nc.finalProject.model.Tshirt;
+import com.nc.finalProject.model.Template;
 import com.nc.finalProject.service.CommentService;
-import com.nc.finalProject.service.TshirtService;
+import com.nc.finalProject.service.TemplateService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,22 +20,22 @@ public class CommentController {
     private static final Logger LOGGER = Logger.getLogger(CommentController.class);
 
     @Autowired
-    private TshirtService tshirtService;
+    private TemplateService templateService;
 
     @Autowired
     private CommentService commentService;
 
-    @PostMapping("/comment/{tShirt}")
-    public String saveComment(@PathVariable Tshirt tShirt, Comment comment) {
-        comment.setTshirt(tShirt);
+    @PostMapping("/comment/{template}")
+    public String saveComment(@PathVariable Template template, Comment comment) {
+        comment.setTemplate(template);
         commentService.create(comment);
         LOGGER.info("Comment created idCom:" + comment.getId());
-        return "redirect:/tshirt/{tShirt}";
+        return "redirect:/tshirt/{template}";
     }
 
-    @GetMapping("/comment/{tShirt}")
-    public String getComment(@PathVariable Tshirt tShirt, Model model) {
-        model.addAttribute("comments", commentService.findByTshirt(tShirt));
+    @GetMapping("/comment/{template}")
+    public String getComment(@PathVariable Template template, Model model) {
+        model.addAttribute("comments", commentService.findByTemplate(template));
         return "comments";
     }
 

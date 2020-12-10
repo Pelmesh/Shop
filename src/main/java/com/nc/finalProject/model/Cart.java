@@ -10,10 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "carts")
-public class Cart {
+public class Cart implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,17 +24,18 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Tshirt tshirt;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Size size;
 
     public Cart(){}
 
-    public Cart(Tshirt tShirt, Size size) {
-        this.tshirt = tShirt;
-        this.size = size;
+    public Cart(User user, Tshirt tshirt){
+        this.user = user;
+        this.tshirt = tshirt;
+    }
+
+    public Cart(Tshirt tshirt){
+        this.tshirt = tshirt;
     }
 
     public Long getId() {
@@ -58,13 +60,5 @@ public class Cart {
 
     public void setTshirt(Tshirt tshirt) {
         this.tshirt = tshirt;
-    }
-
-    public Size getSize() {
-        return size;
-    }
-
-    public void setSize(Size size) {
-        this.size = size;
     }
 }

@@ -3,10 +3,15 @@ package com.nc.finalProject.controller;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.nc.finalProject.model.EnumSize;
+import com.nc.finalProject.model.Gender;
 import com.nc.finalProject.model.Size;
 import com.nc.finalProject.model.Template;
 import com.nc.finalProject.model.Tshirt;
 import com.nc.finalProject.model.User;
+//import com.nc.finalProject.service.CommentService;
+//import com.nc.finalProject.service.SizeService;
+//import com.nc.finalProject.service.TemplateService;
+import com.nc.finalProject.repo.SizeRepository;
 import com.nc.finalProject.service.CommentService;
 import com.nc.finalProject.service.SizeService;
 import com.nc.finalProject.service.TemplateService;
@@ -24,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -36,13 +43,14 @@ public class TshirtController {
     private TshirtService tShirtService;
 
     @Autowired
-    private CommentService commentService;
-
-    @Autowired
     private TemplateService templateService;
 
     @Autowired
     private SizeService sizeService;
+
+    @Autowired
+    private CommentService commentService;
+
 
     @GetMapping("create")
     public String getCreate() {
@@ -51,33 +59,32 @@ public class TshirtController {
 
     @PostMapping("create")
     public String saveTshirt(@AuthenticationPrincipal User user, Template template) throws IOException {
-        Tshirt tShirt = new Tshirt();
         template.setUrl(addImage(template.getUrl()));
         if (user != null) {
-            tShirt.setUser(user);
+            template.setUser(user);
+        } else {
+            template.setAllSee(true);
         }
         template.setPrice(30.0);
         template.setDiscountPrice(25.0);
         template.setDiscount(false);
         templateService.create(template);
-        tShirt.setTemplate(template);
-        tShirtService.create(tShirt);
-        LOGGER.info("Tshirt created id:" + tShirt.getId());
-        setSize(tShirt);
+        LOGGER.info("Template created id:" + template.getId());
+        setSize(template);
         return "create";
     }
 
-    private void setSize(Tshirt tShirt) {
-        if (tShirt.getTemplate().getGender().equals("FEMALE")) {
-            sizeService.create(new Size(tShirt, EnumSize.XS, 20));
-            sizeService.create(new Size(tShirt, EnumSize.S, 20));
-            sizeService.create(new Size(tShirt, EnumSize.M, 20));
-            sizeService.create(new Size(tShirt, EnumSize.L, 20));
+    private void setSize(Template template) {
+        if (template.getGender().equals(Gender.FEMALE.name())) {
+            tShirtService.create(new Tshirt(template, sizeService.findBySize(EnumSize.XS.name()), 20));
+            tShirtService.create(new Tshirt(template, sizeService.findBySize(EnumSize.S.name()), 20));
+            tShirtService.create(new Tshirt(template, sizeService.findBySize(EnumSize.M.name()), 20));
+            tShirtService.create(new Tshirt(template, sizeService.findBySize(EnumSize.L.name()), 20));
         } else {
-            sizeService.create(new Size(tShirt, EnumSize.S, 20));
-            sizeService.create(new Size(tShirt, EnumSize.M, 20));
-            sizeService.create(new Size(tShirt, EnumSize.L, 20));
-            sizeService.create(new Size(tShirt, EnumSize.XL, 20));
+            tShirtService.create(new Tshirt(template, sizeService.findBySize(EnumSize.S.name()), 20));
+            tShirtService.create(new Tshirt(template, sizeService.findBySize(EnumSize.M.name()), 20));
+            tShirtService.create(new Tshirt(template, sizeService.findBySize(EnumSize.L.name()), 20));
+            tShirtService.create(new Tshirt(template, sizeService.findBySize(EnumSize.XL.name()), 20));
         }
     }
 
@@ -98,15 +105,22 @@ public class TshirtController {
         return pathSVG.substring(0, pathSVG.length() - 3) + "png";
     }
 
-    @GetMapping("tshirt/{tShirt}")
-    public String getTshirt(@PathVariable Tshirt tShirt, Model model, HttpServletResponse res) {
-        if (!tShirt.getTemplate().isAllSee()) {
+
+
+    @GetMapping("tshirt/{template}")
+    public String getTshirt(@PathVariable Template template, Model model, HttpServletResponse res) {
+        if (!template.isAllSee()) {
             res.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return null;
         }
-        model.addAttribute("tShirt", tShirt);
-        model.addAttribute("sizes", sizeService.findByTshirt(tShirt));
-        model.addAttribute("comments", commentService.findByTshirt(tShirt));
+        model.addAttribute("tShirt", template);
+        List<Tshirt> list = template.getTshirts();
+        List<Size> sizes = new ArrayList<>();
+        for(Tshirt tshirt:list){
+            sizes.add(sizeService.findByTshirts(tshirt));
+        }
+        model.addAttribute("sizes", sizes);
+        model.addAttribute("comments", commentService.findByTemplate(template));
         return "tShirt";
     }
 }

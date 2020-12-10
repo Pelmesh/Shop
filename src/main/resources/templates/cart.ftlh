@@ -24,7 +24,7 @@
                                 <#assign price = price + tShirt.tshirt.template.discountPrice>
                                 <div class="sale">Sale</div>
                             </#if>
-                            <a href="/tshirt/${tShirt.tshirt.id}">
+                            <a href="/tshirt/${tShirt.tshirt.template.id}">
                                 <img src="${tShirt.tshirt.template.url}" alt="" class="w-100 card-img-top">
                             </a>
                             <div class="p-4">
@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-8"><a href="single-shop.html" class="btn"><span>buy now</span></a></div>
-                                    <div class="col-4 text-right">size <h5>${tShirt.size.size}</h5></div>
+                                    <div class="col-4 text-right">size <h5>${tShirt.tshirt.size.size}</h5></div>
                                 </div>
                             </div>
                         </div>

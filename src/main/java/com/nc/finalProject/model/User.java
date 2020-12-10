@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -33,16 +34,18 @@ public class User implements UserDetails {
 
     private String password;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    private Set<Tshirt> tshirts;
-
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Cart> carts;
+    private List<Template> templates;
+
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<Cart> carts;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    public User(){}
 
     @Override
     public boolean isAccountNonExpired() {
@@ -69,28 +72,12 @@ public class User implements UserDetails {
         return getRoles();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
     }
 
     public String getPassword() {
@@ -101,22 +88,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public Set<Tshirt> getTshirts() {
-        return tshirts;
-    }
-
-    public void setTshirts(Set<Tshirt> tshirts) {
-        this.tshirts = tshirts;
-    }
-
-    public Set<Cart> getCarts() {
-        return carts;
-    }
-
-    public void setCarts(Set<Cart> carts) {
-        this.carts = carts;
-    }
-
     public Set<Role> getRoles() {
         return roles;
     }
@@ -124,4 +95,37 @@ public class User implements UserDetails {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public List<Template> getTemplates() {
+        return templates;
+    }
+
+    public void setTemplates(List<Template> templates) {
+        this.templates = templates;
+    }
+//
+//    public List<Cart> getCarts() {
+//        return carts;
+//    }
+//
+//    public void setCarts(List<Cart> carts) {
+//        this.carts = carts;
+//    }
+
 }

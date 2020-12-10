@@ -2,7 +2,6 @@ package com.nc.finalProject.controller.config;
 
 import com.google.gson.Gson;
 import com.nc.finalProject.model.Cart;
-import com.nc.finalProject.model.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -31,11 +30,10 @@ public class CountCartInterceptor extends HandlerInterceptorAdapter {
                         modelAndView.addObject("countCart", setCount(cookie));
                     }
                 }
-            } else{
+            } else {
                 modelAndView.addObject("countCart", 0);
             }
         } else {
-            modelAndView.addObject("countCart", 0);
         }
     }
 
