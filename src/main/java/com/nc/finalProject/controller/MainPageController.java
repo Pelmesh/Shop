@@ -1,13 +1,13 @@
 package com.nc.finalProject.controller;
 
-import com.nc.finalProject.model.Template;
 import com.nc.finalProject.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
 
 @Controller
 public class MainPageController {
@@ -15,9 +15,11 @@ public class MainPageController {
     private TemplateService templateService;
 
     @GetMapping
-    public String getMain(Model model){
-        List<Template> list = templateService.findByAllSeeTrue();
-        model.addAttribute("tShirts", list);
+    public String getMain(
+            Model model,
+            @PageableDefault(sort = {"id"}, size = 8, direction = Sort.Direction.DESC) Pageable pageable) {
+        model.addAttribute("page", templateService.findByAllSeeTrue(pageable));
+        model.addAttribute("url", "/");
         return "main";
     }
 

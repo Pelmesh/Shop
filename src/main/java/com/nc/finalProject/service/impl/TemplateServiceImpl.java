@@ -4,6 +4,8 @@ import com.nc.finalProject.model.Template;
 import com.nc.finalProject.repo.TemplateRepository;
 import com.nc.finalProject.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,5 +23,10 @@ public class TemplateServiceImpl implements TemplateService {
     @Override
     public List<Template> findByAllSeeTrue() {
         return templateRepository.findByAllSeeTrue();
+    }
+
+    @Override
+    public Page<Template> findByAllSeeTrue(Pageable pageable) {
+        return templateRepository.findByAllSeeTrue(pageable);
     }
 }

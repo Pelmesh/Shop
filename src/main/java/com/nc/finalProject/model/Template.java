@@ -1,5 +1,7 @@
 package com.nc.finalProject.model;
 
+import com.nc.finalProject.model.enumModel.Gender;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;

@@ -5,7 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.nc.finalProject.model.Cart;
 import com.nc.finalProject.model.Item;
 import com.nc.finalProject.model.Order;
-import com.nc.finalProject.model.Status;
+import com.nc.finalProject.model.enumModel.Status;
 import com.nc.finalProject.model.User;
 import com.nc.finalProject.service.CartService;
 import com.nc.finalProject.service.ItemService;

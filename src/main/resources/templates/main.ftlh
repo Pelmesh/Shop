@@ -1,11 +1,11 @@
 <#import "parts/common.ftlh" as c>
 <#import "parts/header.ftlh" as h>
-
+<#import "parts/pages.ftlh" as p>
 <@c.page>
     <@h.page/>
     <div class="container">
         <div class="row pb-5 mb-4">
-            <#list tShirts as tShirt>
+            <#list page.content as tShirt>
                 <div class="col-lg-3 col-md-6 mb-4 mb-lg-0 mt-5">
                     <div class="card shadow-sm border-0 rounded">
                         <div class="card-body p-0">
@@ -60,5 +60,7 @@
             </#list>
         </div>
     </div>
+
+<@p.pager url page/>
 
 </@c.page>

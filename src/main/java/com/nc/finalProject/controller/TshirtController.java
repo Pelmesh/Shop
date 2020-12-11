@@ -2,8 +2,8 @@ package com.nc.finalProject.controller;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.nc.finalProject.model.EnumSize;
-import com.nc.finalProject.model.Gender;
+import com.nc.finalProject.model.enumModel.EnumSize;
+import com.nc.finalProject.model.enumModel.Gender;
 import com.nc.finalProject.model.Size;
 import com.nc.finalProject.model.Template;
 import com.nc.finalProject.model.Tshirt;
@@ -11,7 +11,6 @@ import com.nc.finalProject.model.User;
 //import com.nc.finalProject.service.CommentService;
 //import com.nc.finalProject.service.SizeService;
 //import com.nc.finalProject.service.TemplateService;
-import com.nc.finalProject.repo.SizeRepository;
 import com.nc.finalProject.service.CommentService;
 import com.nc.finalProject.service.SizeService;
 import com.nc.finalProject.service.TemplateService;

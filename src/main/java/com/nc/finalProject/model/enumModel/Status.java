@@ -1,4 +1,4 @@
-package com.nc.finalProject.model;
+package com.nc.finalProject.model.enumModel;
 
 public enum Status {
     PROCESSED,DELIVERED,COMPLETED;

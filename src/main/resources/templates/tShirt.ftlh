@@ -82,7 +82,6 @@ blockquote{
 
 <script>
     function getSize(size){
-        console.log(size)
         document.getElementById('size').value= size;
     }
 

@@ -22,9 +22,9 @@
                     <input type="color" class="" id="favcolor">
                 </h2>
                 <label>Type</label>
-                <select id="gender" onclick="sex()"  class="nice-select" name="gender">
-                    <option value="MALE" class="btn">Man</option>
-                    <option value="FEMALE" class="btn">Woman</option>
+                <select id="gender" onchange="sex()"  class="nice-select" name="gender">
+                    <option value="MALE" >Man</option>
+                    <option value="FEMALE" >Woman</option>
                 </select>
                 <label>Who can view</label>
                 <select class="nice-select" name="allSee">
@@ -134,7 +134,6 @@
     }
 
     function sex(){
-        console.log("fds")
         if($('#gender').val()=='MALE'){
             canvas.setOverlayImage('https://res.cloudinary.com/itr/image/upload/v1555868663/fon_qkezpa.png', canvas.renderAll.bind(canvas));
             canvas.setBackgroundImage('https://res.cloudinary.com/itr/image/upload/v1555868664/white_zkntjk.png', canvas.renderAll.bind(canvas));

@@ -67,3 +67,8 @@ div.sale{
     transition: all 0.3s;
     font-size: 0.9rem;
 }
+
+.pagination-item.no-active a{
+    background-color: #fafafa;pointer-events: none;
+    cursor: default;
+}

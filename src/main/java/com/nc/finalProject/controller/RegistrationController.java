@@ -2,6 +2,7 @@ package com.nc.finalProject.controller;
 
 import com.nc.finalProject.model.Role;
 import com.nc.finalProject.model.User;
+import com.nc.finalProject.model.enumModel.EnumRole;
 import com.nc.finalProject.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class RegistrationController {
     private UserService userService;
 
     @GetMapping
-    public String getRegistration(Model model) {
+    public String getRegistration() {
         return "registration";
     }
 
@@ -35,7 +36,7 @@ public class RegistrationController {
             model.addAttribute("user", user);
             return "registration";
         }
-        user.setRoles(Collections.singleton(Role.USER));
+        user.setRoles(Collections.singleton(new Role(1L, EnumRole.ROLE_USER.name())));
         userService.create(user);
         LOGGER.info("User created id:" + user.getId());
         return "redirect:/login";
