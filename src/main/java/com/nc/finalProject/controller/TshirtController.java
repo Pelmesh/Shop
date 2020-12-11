@@ -2,15 +2,12 @@ package com.nc.finalProject.controller;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.nc.finalProject.model.enumModel.EnumSize;
-import com.nc.finalProject.model.enumModel.Gender;
 import com.nc.finalProject.model.Size;
 import com.nc.finalProject.model.Template;
 import com.nc.finalProject.model.Tshirt;
 import com.nc.finalProject.model.User;
-//import com.nc.finalProject.service.CommentService;
-//import com.nc.finalProject.service.SizeService;
-//import com.nc.finalProject.service.TemplateService;
+import com.nc.finalProject.model.enumModel.EnumSize;
+import com.nc.finalProject.model.enumModel.Gender;
 import com.nc.finalProject.service.CommentService;
 import com.nc.finalProject.service.SizeService;
 import com.nc.finalProject.service.TemplateService;
@@ -105,7 +102,6 @@ public class TshirtController {
     }
 
 
-
     @GetMapping("tshirt/{template}")
     public String getTshirt(@PathVariable Template template, Model model, HttpServletResponse res) {
         if (!template.isAllSee()) {
@@ -115,7 +111,7 @@ public class TshirtController {
         model.addAttribute("tShirt", template);
         List<Tshirt> list = template.getTshirts();
         List<Size> sizes = new ArrayList<>();
-        for(Tshirt tshirt:list){
+        for (Tshirt tshirt : list) {
             sizes.add(sizeService.findByTshirts(tshirt));
         }
         model.addAttribute("sizes", sizes);

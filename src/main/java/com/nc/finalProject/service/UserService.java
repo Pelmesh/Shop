@@ -12,4 +12,7 @@ public interface UserService {
 
     User create(User user);
 
+    User findByActivateCode(String code);
+
+    User findByEmail(String email);
 }
