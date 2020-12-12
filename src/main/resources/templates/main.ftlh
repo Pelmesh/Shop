@@ -57,7 +57,7 @@
                                         </div>
                                     </#if>
                                 </div>
-                                <a href="single-shop.html" class="btn"><span>buy now</span></a>
+                                <a href="/tshirt/${tShirt.id}" class="btn"><span>buy now</span></a>
                             </div>
                         </div>
                     </div>

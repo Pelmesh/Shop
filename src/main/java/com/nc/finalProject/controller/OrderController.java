@@ -12,6 +12,7 @@ import com.nc.finalProject.service.CartService;
 import com.nc.finalProject.service.ItemService;
 import com.nc.finalProject.service.OrderService;
 import com.nc.finalProject.service.TshirtService;
+import com.nc.finalProject.util.CookieUtil;
 import com.nc.finalProject.util.MailSenderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,6 +44,9 @@ public class OrderController {
 
     @Autowired
     private TshirtService tshirtService;
+
+    @Autowired
+    private CookieUtil cookieUtil;
 
     @Autowired
     private MailSenderUtil mailSender;
@@ -112,7 +116,7 @@ public class OrderController {
     }
 
     private boolean chekItem(Cookie cookie) throws UnsupportedEncodingException {
-        List<Cart> cartList = getCartListFromCooki(cookie);
+        List<Cart> cartList = cookieUtil.getCartListFromCookie(cookie);
         for (Cart cart : cartList) {
             if (cart.getTshirt().getCount() < 1) return false;
         }
@@ -126,7 +130,7 @@ public class OrderController {
     }
 
     private List<Item> getListItemsFromCookies(Order order, Cookie cookie) throws UnsupportedEncodingException {
-        return getItem(getCartListFromCooki(cookie), order);
+        return getItem(cookieUtil.getCartListFromCookie(cookie), order);
     }
 
     private List<Item> getItem(List<Cart> cartList, Order order) {
@@ -135,13 +139,6 @@ public class OrderController {
             itemList.add(new Item(tshirtService.findById((cart.getTshirt().getId())).get(), order));
         }
         return itemList;
-    }
-
-    private List<Cart> getCartListFromCooki(Cookie cookie) throws UnsupportedEncodingException {
-        String json = URLDecoder.decode(cookie.getValue(), "UTF-8");
-        java.lang.reflect.Type type = new TypeToken<List<Cart>>() {
-        }.getType();
-        return new Gson().fromJson(json, type);
     }
 
 }

@@ -8,6 +8,7 @@ import com.nc.finalProject.model.Tshirt;
 import com.nc.finalProject.model.User;
 import com.nc.finalProject.service.CartService;
 import com.nc.finalProject.service.TshirtService;
+import com.nc.finalProject.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -37,6 +38,9 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
+    @Autowired
+    private CookieUtil cookieUtil;
+
     @GetMapping
     public String getCart(@AuthenticationPrincipal User user,
                           @CookieValue(value = "cartList", required = false) Cookie cookie,
@@ -46,27 +50,17 @@ public class CartController {
         if (user != null && cookie == null) {
             cartList = cartService.findAllByUser(user);
         } else if (user != null && cookie != null) {
-            List<Cart> cartListFromCookie = getListFromCookies(cookie);
+            List<Cart> cartListFromCookie = cookieUtil.getCartListFromCookie(cookie);
             for (Cart cart : cartListFromCookie) {
                 cartService.create(new Cart(user, tshirtService.findById(cart.getTshirt().getId()).get()));
             }
             cartList = cartService.findAllByUser(user);
-            Cookie removeCookie = new Cookie("cartList", "");
-            removeCookie.setMaxAge(0);
-            removeCookie.setPath("/");
-            res.addCookie(removeCookie);
+            cookieUtil.removeCookie(res,"cartList");
         } else if (cookie != null) {
-            cartList = getListFromCookies(cookie);
+            cartList = cookieUtil.getCartListFromCookie(cookie);
         }
         if (!cartList.isEmpty()) model.addAttribute("cartList", cartList);
         return "cart";
-    }
-
-    private List<Cart> getListFromCookies(Cookie cookie) throws UnsupportedEncodingException {
-        String json = URLDecoder.decode(cookie.getValue(), "UTF-8");
-        java.lang.reflect.Type type = new TypeToken<List<Cart>>() {
-        }.getType();
-        return new Gson().fromJson(json, type);
     }
 
     @PostMapping("{template}")
@@ -91,7 +85,7 @@ public class CartController {
                                Cookie cookie) throws UnsupportedEncodingException {
         List<Cart> cartList = new ArrayList<>();
         if (cookie != null) {
-            cartList = getListFromCookies(cookie);
+            cartList = cookieUtil.getCartListFromCookie(cookie);
         }
         cartList.add(cart);
         for (Cart value : cartList) {
@@ -99,7 +93,7 @@ public class CartController {
             value.getTshirt().getTemplate().setUser(null);
             value.getTshirt().getSize().setTshirts(null);
         }
-        setCookie(res, new Gson().toJson(cartList));
+        cookieUtil.setCartCookie(res, new Gson().toJson(cartList));
     }
 
     @DeleteMapping("{id}")
@@ -108,21 +102,15 @@ public class CartController {
                              @AuthenticationPrincipal User user,
                              HttpServletResponse res) throws UnsupportedEncodingException {
         if (user == null) {
-            List<Cart> cartList = getListFromCookies(cookie);
+            List<Cart> cartList = cookieUtil.getCartListFromCookie(cookie);
             cartList.removeIf(cart -> cart.getTshirt().getId().equals(id));
-            setCookie(res, new Gson().toJson(cartList));
+            cookieUtil.setCartCookie(res, new Gson().toJson(cartList));
         } else {
             cartService.delete(cartService.findTopByUserAndTshirt_Id(user, id));
         }
         return "redirect:/cart";
     }
 
-    private void setCookie(HttpServletResponse res, String json) throws UnsupportedEncodingException {
-        Cookie cookie = new Cookie("cartList", URLEncoder.encode(json, "UTF-8"));
-        cookie.setMaxAge(60);
-        cookie.setPath("/");
-        res.addCookie(cookie);
-    }
 
 }
 

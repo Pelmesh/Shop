@@ -2,6 +2,8 @@ package com.nc.finalProject.controller;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.google.gson.Gson;
+import com.nc.finalProject.model.Cart;
 import com.nc.finalProject.model.Size;
 import com.nc.finalProject.model.Template;
 import com.nc.finalProject.model.Tshirt;
@@ -12,19 +14,23 @@ import com.nc.finalProject.service.CommentService;
 import com.nc.finalProject.service.SizeService;
 import com.nc.finalProject.service.TemplateService;
 import com.nc.finalProject.service.TshirtService;
+import com.nc.finalProject.util.CookieUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +52,9 @@ public class TshirtController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private CookieUtil cookieUtil;
 
 
     @GetMapping("create")
@@ -103,7 +112,10 @@ public class TshirtController {
 
 
     @GetMapping("tshirt/{template}")
-    public String getTshirt(@PathVariable Template template, Model model, HttpServletResponse res) {
+    public String getTshirt(@PathVariable Template template,
+                            @CookieValue(value = "prevList", required = false) Cookie cookie,
+                            Model model,
+                            HttpServletResponse res) throws UnsupportedEncodingException {
         if (!template.isAllSee()) {
             res.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return null;
@@ -116,6 +128,8 @@ public class TshirtController {
         }
         model.addAttribute("sizes", sizes);
         model.addAttribute("comments", commentService.findByTemplate(template));
+        cookieUtil.saveInCookiesPreview(res, cookie, template);
         return "tShirt";
     }
+
 }

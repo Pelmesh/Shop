@@ -1,3 +1,4 @@
+<#import "youWatched.ftlh" as y>
 <#macro page>
     <!DOCTYPE html>
     <html lang="zxx">
@@ -32,6 +33,7 @@
 <#--            </div>-->
 <#--        </div>-->
     <#nested>
+    <@y.page/>
     </body>
     <script src="/js/jquery-2.2.4.min.js"></script>
     <script src="/js/slick.min.js"></script>

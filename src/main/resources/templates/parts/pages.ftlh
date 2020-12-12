@@ -14,7 +14,7 @@
     <#else>
         <#assign body = 1..page.getTotalPages()>
     </#if>
-    <div class="container shop-product-cover">
+    <div class="container shop-product-cover mb-5">
         <div class="pagination-cover">
             <ul class="pagination">
                 <#list body as p>

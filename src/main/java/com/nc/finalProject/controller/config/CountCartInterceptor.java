@@ -3,6 +3,7 @@ package com.nc.finalProject.controller.config;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nc.finalProject.model.Cart;
+import com.nc.finalProject.model.Template;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -28,7 +29,10 @@ public class CountCartInterceptor extends HandlerInterceptorAdapter {
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
                     if (cookie.getName().equals("cartList")) {
-                        modelAndView.addObject("countCart", setCount(cookie));
+                        modelAndView.addObject("countCart", getCount(cookie));
+                    }
+                    if (cookie.getName().equals("prevList")) {
+                        modelAndView.addObject("listPreview", getTemplate(cookie));
                     }
                 }
             } else {
@@ -37,11 +41,18 @@ public class CountCartInterceptor extends HandlerInterceptorAdapter {
         }
     }
 
-    private int setCount(Cookie cookie) throws UnsupportedEncodingException {
+    private int getCount(Cookie cookie) throws UnsupportedEncodingException {
         String json = URLDecoder.decode(cookie.getValue(), "UTF-8");
         java.lang.reflect.Type type = new TypeToken<List<Cart>>() {
         }.getType();
         List<Cart> cartList = new Gson().fromJson(json, type);
         return cartList.size();
+    }
+
+    private List<Template> getTemplate(Cookie cookie) throws UnsupportedEncodingException {
+        String json = URLDecoder.decode(cookie.getValue(), "UTF-8");
+        java.lang.reflect.Type type = new TypeToken<List<Template>>() {
+        }.getType();
+        return new Gson().fromJson(json, type);
     }
 }
