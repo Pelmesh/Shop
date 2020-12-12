@@ -112,7 +112,7 @@ public class TshirtController {
         List<Tshirt> list = template.getTshirts();
         List<Size> sizes = new ArrayList<>();
         for (Tshirt tshirt : list) {
-            sizes.add(sizeService.findByTshirts(tshirt));
+            if(tshirt.getCount()>0) sizes.add(sizeService.findByTshirts(tshirt));
         }
         model.addAttribute("sizes", sizes);
         model.addAttribute("comments", commentService.findByTemplate(template));

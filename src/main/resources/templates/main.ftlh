@@ -4,6 +4,11 @@
 <@c.page>
     <@h.page/>
     <div class="container">
+        <#if messageSuccess??>
+            <div class="alert alert-success mt-3 text-center col-3" role="alert">
+                ${messageSuccess}
+            </div>
+        </#if>
         <div class="row pb-5 mb-4">
             <#list page.content as tShirt>
                 <div class="col-lg-3 col-md-6 mb-4 mb-lg-0 mt-5">

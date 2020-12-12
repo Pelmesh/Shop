@@ -11,7 +11,7 @@ public interface CartService {
 
     List<Cart> findAllByUser(User user);
 
-    Cart findByUserAndTshirt_id(User user, Long id);
+    Cart findTopByUserAndTshirt_Id(User user, Long id);
 
     void deleteAll(List<Cart> cartList);
 

@@ -13,14 +13,22 @@
         </div>
     </section>
 <#assign price = 0 >
+
 <#if cartList??>
     <div class="container">
+        <#if message??>
+            <div class="alert alert-danger mt-3 text-center col-3" role="alert">
+                ${message}
+            </div>
+        </#if>
         <div class="row pb-5 mb-4">
             <#list cartList as tShirt>
                 <div class="col-lg-3 col-md-6 mb-4 mb-lg-0 mt-5">
                     <div class="card shadow-sm border-0 rounded">
                         <div class="card-body p-0">
-                            <#if tShirt.tshirt.template.discount == true>
+                            <#if tShirt.tshirt.count lt 1>
+                                <div class="sale">Not available</div>
+                            <#elseif tShirt.tshirt.template.discount == true>
                                 <#assign price = price + tShirt.tshirt.template.discountPrice>
                                 <div class="sale">Sale</div>
                             </#if>

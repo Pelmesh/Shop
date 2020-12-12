@@ -33,6 +33,7 @@ import java.util.List;
 public class CartController {
     @Autowired
     private TshirtService tshirtService;
+
     @Autowired
     private CartService cartService;
 
@@ -111,7 +112,7 @@ public class CartController {
             cartList.removeIf(cart -> cart.getTshirt().getId().equals(id));
             setCookie(res, new Gson().toJson(cartList));
         } else {
-            cartService.delete(cartService.findByUserAndTshirt_id(user, id));
+            cartService.delete(cartService.findTopByUserAndTshirt_Id(user, id));
         }
         return "redirect:/cart";
     }

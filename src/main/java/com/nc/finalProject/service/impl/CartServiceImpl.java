@@ -25,8 +25,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart findByUserAndTshirt_id(User user, Long id) {
-        return cartRepository.findByUserAndTshirt_Id(user, id);
+    public Cart findTopByUserAndTshirt_Id(User user, Long id) {
+        return cartRepository.findTopByUserAndTshirt_Id(user, id);
     }
 
     @Override
