@@ -1,7 +1,5 @@
 package com.nc.finalProject.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.nc.finalProject.model.Cart;
 import com.nc.finalProject.model.Item;
 import com.nc.finalProject.model.Order;
@@ -26,7 +24,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 

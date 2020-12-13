@@ -1,7 +1,6 @@
 package com.nc.finalProject.controller;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.nc.finalProject.model.Cart;
 import com.nc.finalProject.model.Template;
 import com.nc.finalProject.model.Tshirt;
@@ -24,8 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -75,10 +75,6 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-8">
-<#--                                        <form action="cart/${tShirt.id}" method="post">-->
-<#--                                            <button type="submit" class="btn btn-delete"><span>Delete</span></button>-->
-<#--                                            <input type="hidden" name="_method" value="DELETE"/>-->
-<#--                                        </form>-->
                                         <form action="cart/${tShirt.tshirt.id}" method="post">
                                             <button type="submit" class="btn btn-delete"><span>Delete</span></button>
                                             <input type="hidden" name="_method" value="DELETE"/>
@@ -99,10 +95,34 @@
                 <div class="find-bike-form">
                     <h2 class="title">${price}</h2>
                     <ul class="form-cover">
-                        <li class="inp-name"><input id="name" type="text" name="customer" placeholder="Name"></li>
-                        <li class="inp-phone"><input id="phone" type="tel" name="phoneNumber" placeholder="Phone"></li>
-                        <li class="inp-email"><input id="email" type="email" name="mail" placeholder="E-mail"></li>
-                        <li class="inp-email"><input  type="text" name="address" placeholder="Address"></li>
+                        <li class="inp-name">
+                            <input id="name" type="text" name="customer" placeholder="Name"
+                            <#if userAuth??>
+                                value="${userAuth.name!}"
+                            </#if>
+                            >
+                        </li>
+                        <li class="inp-phone">
+                            <input id="phone" type="tel" name="phoneNumber" placeholder="Phone"
+                            <#if userAuth??>
+                                value="${userAuth.phoneNumber!}"
+                            </#if>
+                            >
+                        </li>
+                        <li class="inp-email">
+                            <input id="email" type="email" name="mail" placeholder="E-mail"
+                            <#if userAuth??>
+                                value="${userAuth.email!}"
+                            </#if>
+                            >
+                        </li>
+                        <li class="inp-text">
+                            <input  type="text" name="address" placeholder="Address"
+                            <#if userAuth??>
+                                value="${userAuth.address!}"
+                            </#if>
+                            >
+                        </li>
                     </ul>
                     <div class="btn-form-cover">
                         <button id="#submit" type="submit" class="btn"><span>Buy</span></button>

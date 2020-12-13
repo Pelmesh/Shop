@@ -70,3 +70,11 @@ div.sale{
     background-color: #fafafa;pointer-events: none;
     cursor: default;
 }
+
+.our-advantages-wrap h5{
+    color:black;
+}
+
+.s-header-title:after{
+    background-color: #ffffff;
+}

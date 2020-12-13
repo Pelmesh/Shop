@@ -24,19 +24,23 @@ public class CountCartInterceptor extends HandlerInterceptorAdapter {
             Object handler,
             ModelAndView modelAndView) throws Exception {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Cookie[] cookies = request.getCookies();
         if (principal.equals("anonymousUser")) {
-            Cookie[] cookies = request.getCookies();
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
                     if (cookie.getName().equals("cartList")) {
                         modelAndView.addObject("countCart", getCount(cookie));
                     }
-                    if (cookie.getName().equals("prevList")) {
-                        modelAndView.addObject("listPreview", getTemplate(cookie));
-                    }
                 }
             } else {
                 modelAndView.addObject("countCart", 0);
+            }
+        }
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("prevList")) {
+                    modelAndView.addObject("listPreview", getTemplate(cookie));
+                }
             }
         }
     }

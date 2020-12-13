@@ -28,6 +28,9 @@ public class User implements UserDetails {
     private String username;
     private String email;
     private String password;
+    private String name;
+    private String address;
+    private String phoneNumber;
     @Transient
     private String passwordConfirm;
     private String activateCode;
@@ -137,5 +140,29 @@ public class User implements UserDetails {
 
     public void setPasswordConfirm(String passwordConfirm) {
         this.passwordConfirm = passwordConfirm;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
