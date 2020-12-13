@@ -78,3 +78,7 @@ div.sale{
 .s-header-title:after{
     background-color: #ffffff;
 }
+
+blockquote{
+    background-color: #fafafa;
+}

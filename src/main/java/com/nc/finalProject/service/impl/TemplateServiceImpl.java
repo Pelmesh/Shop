@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TemplateServiceImpl implements TemplateService {
@@ -28,5 +29,10 @@ public class TemplateServiceImpl implements TemplateService {
     @Override
     public Page<Template> findByAllSeeTrue(Pageable pageable) {
         return templateRepository.findByAllSeeTrue(pageable);
+    }
+
+    @Override
+    public Optional<Template> findById(Long id) {
+        return templateRepository.findById(id);
     }
 }

@@ -7,11 +7,10 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-8 col-md-5">
-                    <!--===== SLIDER-SINGLE-FOR =====-->
                     <div class="slider-single-for">
                         <img src="${tShirt.url}">
                     </div>
-                    <!--=== SLIDER-SINGLE-FOR END ===-->
+
                 </div>
                     <div class="col-12 col-md-7 single-shop-left">
                         <h2 class="title">${tShirt.name}</h2>
@@ -56,50 +55,55 @@
             </div>
         </div>
 
-        <form action="/comment/${tShirt.id}" method="post">
         <div class="reviews-form">
             <h2 class="title">Leave a Comment</h2>
-            <form action="/">
                 <ul class="form-cover">
-                    <li class="inp-text"><textarea name="message" placeholder="Message"></textarea></li>
+                    <li class="inp-text"><textarea name="message" id="comment" placeholder="Message"></textarea></li>
                 </ul>
                 <div class="btn-form-cover">
-                    <button type="submit" class="btn"><span>submit comment</span></button>
+                    <button onclick="sendMessage()" class="btn"><span>submit comment</span></button>
                 </div>
-            </form>
         </div>
-        </form>
     </section>
-
-
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 </@c.page>
 
-<style>
-blockquote{
-    background-color: #fafafa;
-}
-</style>
-
 <script>
-    function getSize(size){
-        document.getElementById('size').value= size;
+    connect()
+    function connect() {
+        var socket = new SockJS('/chat-messaging');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function(frame) {
+            console.log("connected: " + frame);
+            stompClient.subscribe('/chat/messages/${tShirt.id}', function(response) {
+                var data = JSON.parse(response.body);
+                console.log(data)
+                draw(data);
+            });
+        });
     }
-
-    window.onload = function () {
-        comments();
+    function disconnect(){
+        stompClient.disconnect();
     }
-    function comments() {
-        setInterval(loadComment, 2000);
+    function draw(data) {
+        var div = document.getElementById('comm')
+        var blockquote = document.createElement('blockquote');
+        var p = document.createElement('p');
+        var cite = document.createElement('cite');
+        var a = document.createElement('a');
+        p.innerHTML = data.message
+        a.innerHTML = data.author.username
+        cite.innerHTML = "by "
+        cite.append(a)
+        blockquote.append(p)
+        blockquote.append(cite)
+        div.append(blockquote);
     }
-    function loadComment() {
-        $.ajax({
-            type: "GET",
-            url:"/comment/${tShirt.id}",
-            data: ${tShirt.id},
-            success: function (rezult) {
-                $('#comm').empty();
-                $(rezult).appendTo('#comm');
-            }
-        })
+    function sendMessage(){
+        var id= <#if userAuth??>${userAuth.id}</#if>
+        stompClient.send("/app/message/${tShirt.id}",  {}, JSON.stringify({'message': $("#comment").val(),
+        'id': id}));
     }
 </script>
