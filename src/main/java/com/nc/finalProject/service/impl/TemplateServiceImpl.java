@@ -1,6 +1,7 @@
 package com.nc.finalProject.service.impl;
 
 import com.nc.finalProject.model.Template;
+import com.nc.finalProject.model.User;
 import com.nc.finalProject.repo.TemplateRepository;
 import com.nc.finalProject.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,10 @@ public class TemplateServiceImpl implements TemplateService {
     @Override
     public Optional<Template> findById(Long id) {
         return templateRepository.findById(id);
+    }
+
+    @Override
+    public Page<Template> findByUser(User user, Pageable pageable) {
+        return templateRepository.findByUser(user, pageable);
     }
 }

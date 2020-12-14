@@ -49,7 +49,7 @@
                     <#list page.content as comment>
                     <blockquote>
                         <p>“${comment.message}”</p>
-                        <cite>by <a href="#">Kerry Ashman</a></cite>
+                        <cite>by <a href="#">${comment.author.username!}</a></cite>
                     </blockquote>
                     </#list>
                 </div>
@@ -58,15 +58,17 @@
 
         <@p.pager url page/>
 
-        <div class="reviews-form">
-            <h2 class="title">Leave a Comment</h2>
+        <#if userAuth??>
+            <div class="reviews-form">
+                <h2 class="title">Leave a Comment</h2>
                 <ul class="form-cover">
                     <li class="inp-text"><textarea name="message" id="comment" placeholder="Message"></textarea></li>
                 </ul>
                 <div class="btn-form-cover">
                     <button onclick="sendMessage()" class="btn"><span>submit comment</span></button>
                 </div>
-        </div>
+            </div>
+        </#if>
     </section>
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
@@ -106,7 +108,12 @@
     }
     function sendMessage(){
         var id= <#if userAuth??>${userAuth.id}</#if>
-        stompClient.send("/app/message/${tShirt.id}",  {}, JSON.stringify({'message': $("#comment").val(),
+        var text = $("#comment").val()
+        if (!text || /^\s*$/.test(text) || text.length === 0 || !text.trim() || text.length>2048) {
+            return false;
+        }
+        text = text.trim();
+        stompClient.send("/app/message/${tShirt.id}",  {}, JSON.stringify({'message': text,
         'id': id}));
     }
 </script>
