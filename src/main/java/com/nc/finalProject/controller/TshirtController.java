@@ -17,6 +17,9 @@ import com.nc.finalProject.service.TshirtService;
 import com.nc.finalProject.util.CookieUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -115,7 +118,9 @@ public class TshirtController {
     public String getTshirt(@PathVariable Template template,
                             @CookieValue(value = "prevList", required = false) Cookie cookie,
                             Model model,
-                            HttpServletResponse res) throws UnsupportedEncodingException {
+                            HttpServletResponse res,
+                            @PageableDefault(sort = {"id"}, size = 5,
+                                    direction = Sort.Direction.DESC) Pageable pageable) throws UnsupportedEncodingException {
         if (!template.isAllSee()) {
             res.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return null;
@@ -127,7 +132,8 @@ public class TshirtController {
             if(tshirt.getCount()>0) sizes.add(sizeService.findByTshirts(tshirt));
         }
         model.addAttribute("sizes", sizes);
-        model.addAttribute("comments", commentService.findByTemplate(template));
+        model.addAttribute("page", commentService.findByTemplate(template, pageable));
+        model.addAttribute("url", "/tshirt/"+template.getId());
         cookieUtil.saveInCookiesPreview(res, cookie, template);
         return "tShirt";
     }

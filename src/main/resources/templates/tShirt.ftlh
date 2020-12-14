@@ -1,5 +1,6 @@
 <#import "parts/common.ftlh" as c>
 <#import "parts/header.ftlh" as h>
+<#import "parts/pages.ftlh" as p>
 
 <@c.page>
     <@h.page/>
@@ -45,7 +46,7 @@
         <div class="container">
             <div class="blog-cover">
                 <div class="post-item-cover" id="comm">
-                    <#list comments as comment>
+                    <#list page.content as comment>
                     <blockquote>
                         <p>“${comment.message}”</p>
                         <cite>by <a href="#">Kerry Ashman</a></cite>
@@ -54,6 +55,8 @@
                 </div>
             </div>
         </div>
+
+        <@p.pager url page/>
 
         <div class="reviews-form">
             <h2 class="title">Leave a Comment</h2>

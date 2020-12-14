@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collections;
 import java.util.UUID;
@@ -40,7 +41,7 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String createUser(User user, Model model) {
+    public String createUser(User user, Model model, RedirectAttributes redirectAttributes) {
         User userRepeat = userService.findByUsername(user.getUsername());
         if (userRepeat != null) {
             model.addAttribute("message", "User exist!");
@@ -58,12 +59,14 @@ public class RegistrationController {
             model.addAttribute("user", user);
             return "registration";
         }
-        user.setRoles(Collections.singleton(new Role(1L, EnumRole.ROLE_USER.name())));
+        user.setRoles(Collections.singleton(new Role(1L, EnumRole.USER.name())));
         user.setActive(false);
         user.setActivateCode(UUID.randomUUID().toString());
         userService.create(user);
         mailSender.send(user.getEmail(), "Activation code", getCodeForMail(user.getActivateCode()));
         LOGGER.info("User created id:" + user.getId());
+        redirectAttributes.addFlashAttribute("messageSuccess",
+                "Check your email!");
         return "redirect:/login";
     }
 
@@ -72,12 +75,14 @@ public class RegistrationController {
     }
 
     @GetMapping("{code}")
-    public String activate(@PathVariable String code) {
+    public String activate(@PathVariable String code, RedirectAttributes redirectAttributes) {
         User user = userService.findByActivateCode(code);
         if (user != null) {
             user.setActivateCode(null);
             user.setActive(true);
             userService.create(user);
+            redirectAttributes.addFlashAttribute("messageSuccess",
+                    "Account activated!");
         }
         return "redirect:/login";
     }

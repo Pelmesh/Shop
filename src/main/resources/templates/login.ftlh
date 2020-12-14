@@ -11,6 +11,11 @@
                     You have been logged out
                 </div>
             </#if>
+            <#if messageSuccess??>
+                <div class="alert alert-success mt-3 text-center" role="alert">
+                    ${messageSuccess}
+                </div>
+            </#if>
             <input class="inp-form mt-3 form-control" type="text" name="username" placeholder="Name">
             <input class="inp-form mt-3" type="text" name="password" placeholder="Password">
             <#if RequestParameters.error??>

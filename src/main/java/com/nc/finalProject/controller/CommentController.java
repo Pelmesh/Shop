@@ -36,14 +36,6 @@ public class CommentController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/comment/{template}")
-    public String saveComment(@PathVariable Template template, Comment comment) {
-        comment.setTemplate(template);
-        commentService.create(comment);
-        LOGGER.info("Comment created idCom:" + comment.getId());
-        return "redirect:/tshirt/{template}";
-    }
-
     @MessageMapping("/message/{id}")
     @SendTo("/chat/messages/{id}")
     public Comment getMessages(@DestinationVariable Long id,
@@ -64,24 +56,4 @@ public class CommentController {
         return comment;
     }
 
-    @GetMapping("/comment/{template}")
-    public String getComment(@PathVariable Template template, Model model) {
-        model.addAttribute("comments", commentService.findByTemplate(template));
-        return "comments";
-    }
-
 }
-
-
-/*
-    @MessageMapping("/message/{id}")
-    @SendTo("/chat/messages/{id}")
-    public Comment getMessages(@AuthenticationPrincipal User user,
-                               @DestinationVariable Long id,
-                               @RequestBody Comment comment) {
-        Template template = templateService.findById(id).get();
-        comment.setTemplate(template);
-        comment.setAuthor(user);
-        // commentService.create(comment);
-        return comment;
-    }*/
