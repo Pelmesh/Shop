@@ -42,6 +42,14 @@
                         <#if userAuth?? && userAuth.role == 'ADMIN'>
                             <li><a href="/admin">Admin</a></li>
                         </#if>
+                        <li class="dropdown">
+                            <a href="/manager">Manager<i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                            <ul>
+                                <li><a href="/manager">Manager</a></li>
+                                <li><a href="/manager/templates">Templates</a></li>
+                                <li><a href="/manager/tshirts">T-shirts</a></li>
+                            </ul>
+                        </li>
                         <li><a href="/cart">Cart</a></li>
                     </ul>
                 </nav>

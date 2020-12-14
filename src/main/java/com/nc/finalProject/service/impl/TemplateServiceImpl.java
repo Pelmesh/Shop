@@ -41,4 +41,9 @@ public class TemplateServiceImpl implements TemplateService {
     public Page<Template> findByUser(User user, Pageable pageable) {
         return templateRepository.findByUser(user, pageable);
     }
+
+    @Override
+    public Page<Template> findAll(Pageable pageable) {
+        return templateRepository.findAll(pageable);
+    }
 }

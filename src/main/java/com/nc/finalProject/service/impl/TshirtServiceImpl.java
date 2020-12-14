@@ -5,6 +5,8 @@ import com.nc.finalProject.model.Tshirt;
 import com.nc.finalProject.repo.TshirtRepository;
 import com.nc.finalProject.service.TshirtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -27,5 +29,10 @@ public class TshirtServiceImpl implements TshirtService {
     @Override
     public Optional<Tshirt> findById(Long id) {
         return tshirtRepository.findById(id);
+    }
+
+    @Override
+    public Page<Tshirt> findAll(Pageable pageable) {
+        return tshirtRepository.findAll(pageable);
     }
 }

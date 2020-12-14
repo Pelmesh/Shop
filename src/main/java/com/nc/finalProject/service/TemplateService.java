@@ -20,4 +20,5 @@ public interface TemplateService {
 
     Page<Template>  findByUser(User user, Pageable pageable);
 
+    Page<Template> findAll(Pageable pageable);
 }

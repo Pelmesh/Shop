@@ -11,4 +11,6 @@ public interface OrderService {
 
     Page<Order> findByUser(User user, Pageable pageable);
 
+    Page<Order> findAll(Pageable pageable);
+
 }
