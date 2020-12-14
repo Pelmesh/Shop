@@ -23,4 +23,9 @@ public class CommentServiceImpl implements CommentService {
     public Page<Comment> findByTemplate(Template template, Pageable pageable) {
         return commentRepository.findByTemplate(template, pageable);
     }
+
+    @Override
+    public void delete(Comment comment) {
+        commentRepository.delete(comment);
+    }
 }

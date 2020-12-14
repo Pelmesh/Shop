@@ -47,10 +47,16 @@
             <div class="blog-cover">
                 <div class="post-item-cover" id="comm">
                     <#list page.content as comment>
-                    <blockquote>
-                        <p>“${comment.message}”</p>
-                        <cite>by <a href="#">${comment.author.username!}</a></cite>
-                    </blockquote>
+                    <form action="/admin/${comment.id}" method="post">
+                        <blockquote>
+                            <p>“${comment.message}”</p>
+                            <cite>by <a href="#">${comment.author.username!}</a></cite>
+                            <#if userAuth?? && userAuth.role == 'ADMIN'>
+                                <button type="submit" class="btn btn-delete">Delete</button>
+                                <input type="hidden" name="_method" value="DELETE">
+                            </#if>
+                        </blockquote>
+                    </form>
                     </#list>
                 </div>
             </div>

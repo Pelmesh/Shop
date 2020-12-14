@@ -5,7 +5,7 @@
     <@h.page/>
     <form class= action="" method="post">
         <div class="container col-12 col-sm-8 col-xl-3 col-lg-5 mt-5">
-            <h1>Sign up</h1>
+            <h1>Sign in</h1>
             <#if RequestParameters.logout??>
                 <div class="alert alert-success mt-3 text-center" role="alert">
                     You have been logged out

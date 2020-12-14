@@ -1,6 +1,5 @@
 package com.nc.finalProject.controller;
 
-import com.nc.finalProject.model.Role;
 import com.nc.finalProject.model.User;
 import com.nc.finalProject.model.enumModel.EnumRole;
 import com.nc.finalProject.service.UserService;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Collections;
 import java.util.UUID;
 
 @Controller
@@ -59,7 +57,7 @@ public class RegistrationController {
             model.addAttribute("user", user);
             return "registration";
         }
-        user.setRoles(Collections.singleton(new Role(1L, EnumRole.USER.name())));
+        user.setRole(EnumRole.USER.name());
         user.setActive(false);
         user.setActivateCode(UUID.randomUUID().toString());
         userService.create(user);
