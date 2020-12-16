@@ -24,7 +24,11 @@
                         <#elseif p == -1>
                             <li class="pagination-item no-active"><a disabled="disabled"href="#" tabindex="-1">...</a></li>
                         <#else>
-                            <li class="pagination-item"><a href="${url}?page=${p - 1}&size=${page.getSize()}" tabindex="-1">${p}</a></li>
+                            <#if filter??>
+                                <li class="pagination-item"><a href="${url}&page=${p - 1}&size=${page.getSize()}" tabindex="-1">${p}</a></li>
+                            <#else>
+                                <li class="pagination-item"><a href="${url}?page=${p - 1}&size=${page.getSize()}" tabindex="-1">${p}</a></li>
+                            </#if>
                         </#if>
                     </#list>
                 </ul>

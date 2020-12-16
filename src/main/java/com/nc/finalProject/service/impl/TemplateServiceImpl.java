@@ -7,6 +7,7 @@ import com.nc.finalProject.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,5 +46,10 @@ public class TemplateServiceImpl implements TemplateService {
     @Override
     public Page<Template> findAll(Pageable pageable) {
         return templateRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Template> findAll(Specification<Template> templateSpecification, Pageable pageable) {
+        return templateRepository.findAll(templateSpecification, pageable);
     }
 }

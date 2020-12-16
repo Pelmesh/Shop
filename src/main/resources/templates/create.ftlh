@@ -16,7 +16,8 @@
             <div class="col-12 col-md-7 single-shop-left">
                 <h2 class="title">T-shirt name
                     <input class="inp-form" type="text" name="name" placeholder="T-shirt"
-                           pattern="^[a-zA-Z0-9_ ]{2,15}$"
+                           pattern="^[a-zA-ZА-Яа-я0-9_ ]{2,15}$"
+                           required
                         <#if template??>
                             value="${template.name!}"
                         </#if>
@@ -46,14 +47,14 @@
                         <input type="file" id="file" />
                         <i class="fa fa-cloud-upload"></i>Upload image
                     </label>
-                    <button class="btn mr-2" onclick="text()"><span>Add text</span></button>
-                    <button class="btn btn-wishlist mr-2" onclick="deleteObject()"><span>Delete selected object</span></button>
-                    <button class="btn btn-green mr-2 mt-2" onclick="save()"><span>Save</span></button>
+                    <button type="button" class="btn mr-2" onclick="addText()"><span>Add text</span></button>
+                    <button type="button" class="btn btn-wishlist mr-2" onclick="deleteObject()"><span>Delete selected object</span></button>
+                    <button type="button" class="btn btn-green mr-2 mt-2" onclick="save()"><span>Save</span></button>
                 </div>
                 <h2 class="title mt-5">Description
                     <ul class="form-cover">
                         <li class="inp-text">
-                            <textarea name="description" placeholder="Description">
+                            <textarea name="description" placeholder="Description" maxlength="2048">
                             </textarea>
                         </li>
                     </ul>
@@ -89,6 +90,7 @@
     inp.value="";
 
     function addText(){
+        console.log("Fdf")
         var textbox = new fabric.Textbox('This is a Textbox', {
             left: 250,
             top: 250,
