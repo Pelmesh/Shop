@@ -11,6 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -19,14 +24,21 @@ public class Template {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Pattern(regexp = "^[a-zA-Z0-9_ ]{2,15}$")
     private String name;
     private String url;
+    @Size(max = 2048)
     private String description;
     private Gender gender;
+    @NotNull
     private boolean discount;
+    @NotNull
     private boolean allSee;
+    @DecimalMax("1000.0")
+    @DecimalMin("0.0")
     private double price;
+    @DecimalMax("1000.0")
+    @DecimalMin("0.0")
     private double discountPrice;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -36,7 +48,8 @@ public class Template {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "template")
     private List<Tshirt> tshirts;
 
-    public Template(){}
+    public Template() {
+    }
 
     public Long getId() {
         return id;

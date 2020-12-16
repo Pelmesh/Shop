@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Entity
 @Table(name = "tshirts")
@@ -16,6 +18,8 @@ public class Tshirt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Max(value = 1000, message = "Max 1000")
+    @Min(value = 0, message = "Min 0")
     private int count;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -24,7 +28,8 @@ public class Tshirt {
     @ManyToOne(fetch = FetchType.EAGER)
     private Template template;
 
-    public Tshirt(){}
+    public Tshirt() {
+    }
 
     public Tshirt(Template template, Size size, int count) {
         this.template = template;

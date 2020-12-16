@@ -35,6 +35,7 @@
                             <li class="dropdown">
                                 <a href="/me">My Account<i class="fa fa-angle-down" aria-hidden="true"></i></a>
                                 <ul>
+                                    <li><a href="/me">My Account</a></li>
                                     <li><a href="/me/myStyle">My style</a></li>
                                 </ul>
                             </li>
@@ -42,6 +43,7 @@
                         <#if userAuth?? && userAuth.role == 'ADMIN'>
                             <li><a href="/admin">Admin</a></li>
                         </#if>
+                        <#if userAuth?? && userAuth.role == 'MANAGER'>
                         <li class="dropdown">
                             <a href="/manager">Manager<i class="fa fa-angle-down" aria-hidden="true"></i></a>
                             <ul>
@@ -50,6 +52,7 @@
                                 <li><a href="/manager/tshirts">T-shirts</a></li>
                             </ul>
                         </li>
+                        </#if>
                         <li><a href="/cart">Cart</a></li>
                     </ul>
                 </nav>

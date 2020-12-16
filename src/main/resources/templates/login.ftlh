@@ -17,7 +17,7 @@
                 </div>
             </#if>
             <input class="inp-form mt-3 form-control" type="text" name="username" placeholder="Name">
-            <input class="inp-form mt-3" type="text" name="password" placeholder="Password">
+            <input class="inp-form mt-3" type="password" name="password" placeholder="Password">
             <#if RequestParameters.error??>
                 <div class="alert alert-danger mt-3 text-center" role="alert">
                     Invalid username or password

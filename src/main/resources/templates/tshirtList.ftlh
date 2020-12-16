@@ -6,6 +6,16 @@
     <@h.page/>
 
     <div class="table-responsive container mt-4">
+        <#if messageError??>
+            <div class="alert alert-danger mt-3 text-center col-3" role="alert">
+                ${messageError}
+            </div>
+        </#if>
+        <#if messageSuccess??>
+            <div class="alert alert-success mt-3 text-center col-3" role="alert">
+                ${messageSuccess}
+            </div>
+        </#if>
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -25,7 +35,7 @@
                         <td>${tShirt.template.id!}</td>
                         <td>${tShirt.template.name!}</td>
                         <td>${tShirt.size.size!}</td>
-                        <td><input type="number" name="count" value="${tShirt.count!}"></td>
+                        <td><input type="number" name="count" value="${tShirt.count!}" min="0" max="1000"></td>
                         <th><button type="submit" class="btn btn-wishlist">save</button></th>
                         <input type="hidden" name="_method" value="PUT">
                     </tr>

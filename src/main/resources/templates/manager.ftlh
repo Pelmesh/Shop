@@ -6,6 +6,16 @@
     <@h.page/>
 
     <div class="table-responsive container mt-4">
+        <#if messageSuccess??>
+            <div class="alert alert-success mt-3 text-center col-3" role="alert">
+                ${messageSuccess}
+            </div>
+        </#if>
+        <#if messageError??>
+            <div class="alert alert-danger mt-3 text-center col-3" role="alert">
+                ${messageError}
+            </div>
+        </#if>
         <table class="table table-bordered">
             <thead>
             <tr>

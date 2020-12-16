@@ -2,8 +2,6 @@ package com.nc.finalProject.controller;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.google.gson.Gson;
-import com.nc.finalProject.model.Cart;
 import com.nc.finalProject.model.Size;
 import com.nc.finalProject.model.Template;
 import com.nc.finalProject.model.Tshirt;
@@ -15,6 +13,7 @@ import com.nc.finalProject.service.SizeService;
 import com.nc.finalProject.service.TemplateService;
 import com.nc.finalProject.service.TshirtService;
 import com.nc.finalProject.util.CookieUtil;
+import com.nc.finalProject.util.ValidatorUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +22,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -66,7 +67,16 @@ public class TshirtController {
     }
 
     @PostMapping("create")
-    public String saveTshirt(@AuthenticationPrincipal User user, Template template) throws IOException {
+    public String saveTshirt(@AuthenticationPrincipal User user,
+                             @Valid Template template,
+                             BindingResult bindingResult,
+                             Model model) throws IOException {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ValidatorUtil.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
+            model.addAttribute("template", template);
+            return "create";
+        }
         template.setUrl(addImage(template.getUrl()));
         if (user != null) {
             template.setUser(user);
@@ -79,7 +89,7 @@ public class TshirtController {
         templateService.create(template);
         LOGGER.info("Template created id:" + template.getId());
         setSize(template);
-        return "create";
+        return "redirect:/tshirt/" + template.getId();
     }
 
     private void setSize(Template template) {
@@ -110,7 +120,7 @@ public class TshirtController {
                 "api_secret", "b1t0r9MrMI4YHq5oeCQs3avCsq4"));
         Map uploadRezult = cloudinary.uploader().upload("file.png", ObjectUtils.emptyMap());
         String pathSVG = uploadRezult.get("secure_url").toString();
-        return pathSVG.substring(0, pathSVG.length() - 3) + "png";
+        return pathSVG.substring(0, pathSVG.length() - 3) + "jpg";
     }
 
 
@@ -129,11 +139,11 @@ public class TshirtController {
         List<Tshirt> list = template.getTshirts();
         List<Size> sizes = new ArrayList<>();
         for (Tshirt tshirt : list) {
-            if(tshirt.getCount()>0) sizes.add(sizeService.findByTshirts(tshirt));
+            if (tshirt.getCount() > 0) sizes.add(sizeService.findByTshirts(tshirt));
         }
         model.addAttribute("sizes", sizes);
         model.addAttribute("page", commentService.findByTemplate(template, pageable));
-        model.addAttribute("url", "/tshirt/"+template.getId());
+        model.addAttribute("url", "/tshirt/" + template.getId());
         cookieUtil.saveInCookiesPreview(res, cookie, template);
         return "tShirt";
     }

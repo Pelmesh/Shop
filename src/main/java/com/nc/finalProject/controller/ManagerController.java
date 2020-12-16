@@ -6,19 +6,27 @@ import com.nc.finalProject.model.Tshirt;
 import com.nc.finalProject.service.OrderService;
 import com.nc.finalProject.service.TemplateService;
 import com.nc.finalProject.service.TshirtService;
+import com.nc.finalProject.util.ValidatorUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
+import java.util.Map;
 
 @Controller
 @RequestMapping("manager")
+@PreAuthorize("hasAuthority('MANAGER')")
 public class ManagerController {
     @Autowired
     private OrderService orderService;
@@ -39,8 +47,15 @@ public class ManagerController {
     }
 
     @PutMapping("{order}")
-    public String updateOrder(Order order) {
+    public String updateOrder(@Valid Order order, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ValidatorUtil.getErrors(bindingResult);
+            redirectAttributes.mergeAttributes(errorsMap);
+            redirectAttributes.addFlashAttribute("messageError", "Check data!");
+            return "redirect:/manager";
+        }
         orderService.create(order);
+        redirectAttributes.addFlashAttribute("messageSuccess", "Saved!");
         return "redirect:/manager";
     }
 
@@ -60,7 +75,14 @@ public class ManagerController {
     }
 
     @PutMapping("/tshirts/{tshirt}")
-    public String updateTshirt(Tshirt tshirt) {
+    public String updateTshirt(@Valid Tshirt tshirt,
+                               BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ValidatorUtil.getErrors(bindingResult);
+            redirectAttributes.mergeAttributes(errorsMap);
+            redirectAttributes.addFlashAttribute("messageError", "Check data!");
+            return "redirect:/manager/tshirts";
+        }
         tshirtService.create(tshirt);
         return "redirect:/manager/tshirts";
     }
@@ -75,8 +97,15 @@ public class ManagerController {
     }
 
     @PutMapping("/templates/{template}")
-    public String updateTemplate(Template template) {
+    public String updateTemplate(@Valid Template template, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ValidatorUtil.getErrors(bindingResult);
+            redirectAttributes.mergeAttributes(errorsMap);
+            redirectAttributes.addFlashAttribute("messageError", "Check data!");
+            return "redirect:/manager/templates";
+        }
         templateService.create(template);
+        redirectAttributes.addFlashAttribute("messageSuccess", "Saved!");
         return "redirect:/manager/templates";
     }
 }

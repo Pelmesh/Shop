@@ -14,7 +14,15 @@
                 <!--=== SLIDER-SINGLE-FOR END ===-->
             </div>
             <div class="col-12 col-md-7 single-shop-left">
-                <h2 class="title">T-shirt name<input class="inp-form" type="text" name="name" placeholder="T-shirt"></h2>
+                <h2 class="title">T-shirt name
+                    <input class="inp-form" type="text" name="name" placeholder="T-shirt"
+                           pattern="^[a-zA-Z0-9_ ]{2,15}$"
+                        <#if template??>
+                            value="${template.name!}"
+                        </#if>
+                    >
+                    <span class="invalid-feedback" id="form__error">Incorrect name</span>
+                </h2>
                 <h2 class="title">T-shirt color -
                     <input type="color" class="" id="tcolor"/>
                 </h2>
@@ -26,11 +34,13 @@
                     <option value="MALE" >Man</option>
                     <option value="FEMALE" >Woman</option>
                 </select>
-                <label>Who can view</label>
-                <select class="nice-select" name="allSee">
-                    <option value="1" class="btn">All</option>
-                    <option value="0" class="btn">Only me</option>
-                </select>
+                <#if userAuth??>
+                    <label>Who can view</label>
+                    <select class="nice-select" name="allSee">
+                        <option value="1" class="btn">All</option>
+                        <option value="0" class="btn">Only me</option>
+                    </select>
+                </#if>
                 <div class="single-btn-cover">
                     <label class="custom-file-upload btn mr-2">
                         <input type="file" id="file" />
@@ -42,7 +52,10 @@
                 </div>
                 <h2 class="title mt-5">Description
                     <ul class="form-cover">
-                        <li class="inp-text"><textarea name="description" placeholder="Description"></textarea></li>
+                        <li class="inp-text">
+                            <textarea name="description" placeholder="Description">
+                            </textarea>
+                        </li>
                     </ul>
                 </h2>
             </div>

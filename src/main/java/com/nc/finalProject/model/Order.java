@@ -1,4 +1,5 @@
 package com.nc.finalProject.model;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Entity
@@ -18,10 +21,15 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Pattern(regexp = "^[А-ЯА-яA-Za-z0-9]{4,15}$", message = "Example name: User, User20")
     private String customer;
+    @Pattern(regexp = "^(PROCESSED|DELIVERED|COMPLETED)$")
     private String status;
+    @Pattern(regexp = "^[а-яА-Яa-zA-Z0-9,\\.\\s]{10,110}$", message = "Check address")
     private String address;
+    @Email
     private String mail;
+    @Pattern(regexp = "^375(17|29|33|44)[0-9]{7}$", message = "Example phone: 375441234567")
     private String phoneNumber;
 
     @OneToOne

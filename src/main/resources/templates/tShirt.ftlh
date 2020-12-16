@@ -7,7 +7,7 @@
     <form method="post" action="/cart/${tShirt.id}">
         <div class="container mt-5">
             <div class="row">
-                <div class="col-8 col-md-5">
+                <div class="col-12 col-md-5">
                     <div class="slider-single-for">
                         <img src="${tShirt.url}">
                     </div>

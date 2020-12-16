@@ -6,6 +6,16 @@
     <@h.page/>
 
     <div class="table-responsive container mt-4">
+        <#if messageSuccess??>
+            <div class="alert alert-success mt-3 text-center col-3" role="alert">
+                ${messageSuccess}
+            </div>
+        </#if>
+        <#if messageError??>
+            <div class="alert alert-danger mt-3 text-center col-3" role="alert">
+                ${messageError}
+            </div>
+        </#if>
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -39,7 +49,7 @@
                                 </#if>
                             </select>
                         </td>
-                        <td><input type="number" name="price" value="${template.price}"></td>
+                        <td><input type="number" name="price" value="${template.price}" min="5" max="1000"></td>
                         <td>
                             <select class="form-control" name="discount">
                                 <#if template.discount == true>
@@ -51,7 +61,7 @@
                                 </#if>
                             </select>
                         </td>
-                        <td><input type="number" name="discountPrice" value="${template.discountPrice!}"></td>
+                        <td><input type="number" name="discountPrice" value="${template.discountPrice!}" min="5" max="1000"></td>
                         <th><button type="submit" class="btn btn-wishlist">save</button></th>
                         <input type="hidden" name="_method" value="PUT">
                     </tr>

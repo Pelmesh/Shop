@@ -6,11 +6,13 @@
     <form class= action="" method="post">
         <div class="container col-12 col-sm-8 col-xl-3 col-lg-5 mt-5">
             <h1>Sign up</h1>
-            <input class="inp-form mt-3 form-control is-invalid" type="text" name="username" placeholder="Name"
+            <input class="inp-form mt-3 form-control" type="text" name="username" placeholder="Name"
+                   pattern="^[А-ЯА-яA-Za-z0-9]{4,15}$"
                     <#if user??>
                         value="${user.username!}"
                     </#if>
             >
+            <span class=" invalid-feedback" id="form__error">Example name: user1245, UserOne</span>
             <div class="invalid-feedback ml-1">
                 Please choose a username.
             </div>
@@ -19,8 +21,11 @@
                         value="${user.email!}"
                     </#if>
             >
-            <input class="inp-form mt-3" type="text" name="password" placeholder="Password">
-            <input class="inp-form mt-3" type="text" name="passwordConfirm" placeholder="Password confirm">
+            <span class="invalid-feedback" id="form__error">Example name: mail@mail.ru</span>
+            <input class="inp-form mt-3" type="password" name="password" placeholder="Password"
+            pattern="^[A-Za-z0-9]{4,30}$">
+            <span class="invalid-feedback" id="form__error">Bad password</span>
+            <input class="inp-form mt-3" type="password" name="passwordConfirm" placeholder="Password confirm">
             <#if message??>
                 <div class="alert alert-danger mt-3 text-center" role="alert">
                     ${message}

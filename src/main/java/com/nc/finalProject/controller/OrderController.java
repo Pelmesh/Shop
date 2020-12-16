@@ -12,10 +12,12 @@ import com.nc.finalProject.service.OrderService;
 import com.nc.finalProject.service.TshirtService;
 import com.nc.finalProject.util.CookieUtil;
 import com.nc.finalProject.util.MailSenderUtil;
+import com.nc.finalProject.util.ValidatorUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,9 +25,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("order")
@@ -54,9 +58,16 @@ public class OrderController {
     @PostMapping
     public String saveOrder(@AuthenticationPrincipal User user,
                             @CookieValue(value = "cartList", required = false) Cookie cookie,
-                            Order order,
+                            @Valid Order order,
+                            BindingResult bindingResult,
                             RedirectAttributes redirectAttributes,
                             HttpServletResponse res) throws UnsupportedEncodingException {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ValidatorUtil.getErrors(bindingResult);
+            redirectAttributes.mergeAttributes(errorsMap);
+            redirectAttributes.addFlashAttribute("order", order);
+            return "redirect:/cart";
+        }
         List<Item> itemList;
         order.setStatus(Status.PROCESSED.name());
         if (user != null) {
@@ -66,6 +77,7 @@ public class OrderController {
                 return "redirect:/cart";
             }
             order.setUser(user);
+            order.setMail(order.getUser().getEmail());
             orderService.create(order);
             itemList = getListItemsFromCart(user, order);
         } else {

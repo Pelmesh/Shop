@@ -13,6 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,16 +29,24 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Pattern(regexp = "^[А-ЯА-яA-Za-z0-9]{4,15}$", message = "Example name: User, User20")
     private String username;
+    @Email
     private String email;
+    @Size(min = 4, message = "Short password, min 4")
     private String password;
+    @Pattern(regexp = "^[А-ЯА-яA-Za-z]{0,30}$", message = "Example name: Nikita")
     private String name;
+    @Pattern(regexp = "^[а-яА-Яa-zA-Z0-9,\\.\\s]{0,110}$", message = "Check address")
     private String address;
+    @Pattern(regexp = "^(375(17|29|33|44)[0-9]{7}){0,1}$", message = "Example phone: 375441234567")
     private String phoneNumber;
     @Transient
     private String passwordConfirm;
     private String activateCode;
+    @NotNull
     private boolean isActive;
+    @Pattern(regexp = "^(ADMIN|USER|MANAGER)$")
     private String role;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)

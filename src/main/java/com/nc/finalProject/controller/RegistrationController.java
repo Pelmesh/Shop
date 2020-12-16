@@ -4,17 +4,22 @@ import com.nc.finalProject.model.User;
 import com.nc.finalProject.model.enumModel.EnumRole;
 import com.nc.finalProject.service.UserService;
 import com.nc.finalProject.util.MailSenderUtil;
+import com.nc.finalProject.util.ValidatorUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -25,6 +30,9 @@ public class RegistrationController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private MailSenderUtil mailSender;
@@ -39,7 +47,13 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String createUser(User user, Model model, RedirectAttributes redirectAttributes) {
+    public String createUser(@Valid User user, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ValidatorUtil.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
+            model.addAttribute("user", user);
+            return "registration";
+        }
         User userRepeat = userService.findByUsername(user.getUsername());
         if (userRepeat != null) {
             model.addAttribute("message", "User exist!");
@@ -60,6 +74,7 @@ public class RegistrationController {
         user.setRole(EnumRole.USER.name());
         user.setActive(false);
         user.setActivateCode(UUID.randomUUID().toString());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.create(user);
         mailSender.send(user.getEmail(), "Activation code", getCodeForMail(user.getActivateCode()));
         LOGGER.info("User created id:" + user.getId());
