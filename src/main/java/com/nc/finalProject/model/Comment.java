@@ -1,6 +1,5 @@
 package com.nc.finalProject.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -28,7 +27,8 @@ public class Comment {
     @JoinColumn(name = "template_id")
     private Template template;
 
-    public Comment(){}
+    public Comment() {
+    }
 
     public Long getId() {
         return id;

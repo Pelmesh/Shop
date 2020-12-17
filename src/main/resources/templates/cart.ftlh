@@ -94,7 +94,13 @@
             <section class="s-find-bike">
                 <div class="container">
                     <div class="find-bike-form">
-                        <h2 class="title">${price}</h2>
+                        <div class="row">
+                            <h2 class="title">BYN ${price}</h2>
+                            <#list currency as c>
+                                <div class="col-2"><p class="small text-muted">${price/c.rate} ${c.abbreviation}</p></div>
+                                <p></p>
+                            </#list>
+                        </div>
                         <ul class="form-cover">
                             <li class="inp-name">
                                 <input id="name" type="text" name="customer" placeholder="Name"

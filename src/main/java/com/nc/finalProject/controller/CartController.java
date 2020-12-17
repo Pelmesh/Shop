@@ -6,6 +6,7 @@ import com.nc.finalProject.model.Template;
 import com.nc.finalProject.model.Tshirt;
 import com.nc.finalProject.model.User;
 import com.nc.finalProject.service.CartService;
+import com.nc.finalProject.service.CurrencyService;
 import com.nc.finalProject.service.TshirtService;
 import com.nc.finalProject.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class CartController {
     private CartService cartService;
 
     @Autowired
+    private CurrencyService currencyService;
+
+    @Autowired
     private CookieUtil cookieUtil;
 
     @GetMapping
@@ -52,11 +56,12 @@ public class CartController {
                 cartService.create(new Cart(user, tshirtService.findById(cart.getTshirt().getId()).get()));
             }
             cartList = cartService.findAllByUser(user);
-            cookieUtil.removeCookie(res,"cartList");
+            cookieUtil.removeCookie(res, "cartList");
         } else if (cookie != null) {
             cartList = cookieUtil.getCartListFromCookie(cookie);
         }
         if (!cartList.isEmpty()) model.addAttribute("cartList", cartList);
+        model.addAttribute("currency", currencyService.findAll());
         return "cart";
     }
 

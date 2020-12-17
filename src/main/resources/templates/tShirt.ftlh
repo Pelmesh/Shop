@@ -18,10 +18,16 @@
                         <p>${tShirt.gender}</p>
                         <div class="single-price mt-3">
                             <#if tShirt.discount == true>
-                                <div class="new-price">${tShirt.discountPrice}</div>
+                                <div class="new-price">BYN ${tShirt.discountPrice}</div>
                                 <div class="old-price">${tShirt.price}</div>
+                                <#list currency as c>
+                                <p class="ml-5">${tShirt.discountPrice/c.rate} ${c.abbreviation}</p>
+                                </#list>
                             <#else>
-                                <div class="new-price">${tShirt.price}</div>
+                                <div class="new-price">BYN ${tShirt.price}</div>
+                                <#list currency as c>
+                                    <p class="ml-5">${tShirt.price/c.rate} ${c.abbreviation}</p>
+                                </#list>
                             </#if>
                         </div>
                         <p>${tShirt.description!}</p>

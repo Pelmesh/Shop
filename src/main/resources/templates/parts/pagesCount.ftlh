@@ -15,7 +15,7 @@
         <#assign body = 1..page.getTotalPages()>
     </#if>
     <ul class="pagination">
-        <#list [6, 12, 18, 24] as c>
+        <#list [3, 6, 9, 12, 18, 24] as c>
             <#if c == page.getSize()>
                 <li class="pagination-item no-active"><a disabled="disabled" href="#" tabindex="-1">${c}</a></li>
             <#else>

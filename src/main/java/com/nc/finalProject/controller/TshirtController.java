@@ -9,6 +9,7 @@ import com.nc.finalProject.model.User;
 import com.nc.finalProject.model.enumModel.EnumSize;
 import com.nc.finalProject.model.enumModel.Gender;
 import com.nc.finalProject.service.CommentService;
+import com.nc.finalProject.service.CurrencyService;
 import com.nc.finalProject.service.SizeService;
 import com.nc.finalProject.service.TemplateService;
 import com.nc.finalProject.service.TshirtService;
@@ -56,6 +57,9 @@ public class TshirtController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private CurrencyService currencyService;
 
     @Autowired
     private CookieUtil cookieUtil;
@@ -144,6 +148,7 @@ public class TshirtController {
         model.addAttribute("sizes", sizes);
         model.addAttribute("page", commentService.findByTemplate(template, pageable));
         model.addAttribute("url", "/tshirt/" + template.getId());
+        model.addAttribute("currency", currencyService.findAll());
         cookieUtil.saveInCookiesPreview(res, cookie, template);
         return "tShirt";
     }
