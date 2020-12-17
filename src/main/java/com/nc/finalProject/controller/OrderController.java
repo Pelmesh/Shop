@@ -96,7 +96,7 @@ public class OrderController {
         takeOne(itemList);
         sendMail(itemList, order);
         redirectAttributes.addFlashAttribute("messageSuccess",
-                "Order is processed");
+                "Order "+order.getId()+" is processed");
         return "redirect:/";
     }
 

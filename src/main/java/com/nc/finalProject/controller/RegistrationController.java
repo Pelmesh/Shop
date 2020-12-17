@@ -76,7 +76,12 @@ public class RegistrationController {
         user.setActivateCode(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.create(user);
-        mailSender.send(user.getEmail(), "Activation code", getCodeForMail(user.getActivateCode()));
+        if (!mailSender.send(user.getEmail(), "Activation code", getCodeForMail(user.getActivateCode()))){
+            userService.delete(user);
+            model.addAttribute("message",
+                    "Incorrect email!");
+            return "registration";
+        }
         LOGGER.info("User created id:" + user.getId());
         redirectAttributes.addFlashAttribute("messageSuccess",
                 "Check your email!");

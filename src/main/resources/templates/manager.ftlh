@@ -16,7 +16,7 @@
                 ${messageError}
             </div>
         </#if>
-        <table class="table table-bordered">
+        <table class="table table-bordered mt-2">
             <thead>
             <tr>
                 <th>id</th>
@@ -39,7 +39,7 @@
                         <td>${order.mail!}</td>
                         <td>${order.phoneNumber!}</td>
                         <td>${order.address!}</td>
-                        <td>${order.user.username!}</td>
+                        <td><#if order.user??>${order.user.username!}</#if></td>
                         <td>
                             <select class="form-control" name="status">
                                 <#if order.status == "PROCESSED">

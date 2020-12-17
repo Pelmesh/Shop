@@ -6,6 +6,7 @@ import com.nc.finalProject.model.Size;
 import com.nc.finalProject.model.Template;
 import com.nc.finalProject.model.Tshirt;
 import com.nc.finalProject.model.User;
+import com.nc.finalProject.model.enumModel.EnumRole;
 import com.nc.finalProject.model.enumModel.EnumSize;
 import com.nc.finalProject.model.enumModel.Gender;
 import com.nc.finalProject.service.CommentService;
@@ -129,15 +130,21 @@ public class TshirtController {
 
 
     @GetMapping("tshirt/{template}")
-    public String getTshirt(@PathVariable Template template,
+    public String getTshirt(@AuthenticationPrincipal User user,
+                            @PathVariable Template template,
                             @CookieValue(value = "prevList", required = false) Cookie cookie,
                             Model model,
                             HttpServletResponse res,
                             @PageableDefault(sort = {"id"}, size = 5,
                                     direction = Sort.Direction.DESC) Pageable pageable) throws UnsupportedEncodingException {
         if (!template.isAllSee()) {
-            res.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return null;
+            if (user == null ||
+                    (template.getUser().equals(user) &&
+                            (!user.getRole().equals(EnumRole.ADMIN.name()) &&
+                                    !user.getRole().equals(EnumRole.MANAGER.name())))) {
+                res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                return null;
+            }
         }
         model.addAttribute("tShirt", template);
         List<Tshirt> list = template.getTshirts();

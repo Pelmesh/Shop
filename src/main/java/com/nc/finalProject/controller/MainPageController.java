@@ -41,35 +41,36 @@ public class MainPageController {
                             Model model,
                             @PageableDefault(sort = {"id"}, size = 6, direction = Sort.Direction.DESC) Pageable pageable) {
         model.addAttribute("page", templateService.findAll(
-                (Specification<Template>) (root, query, criteriaBuilder) -> {
+                (Specification<Template>) (root, query, cb) -> {
                     List<Predicate> predicates = new ArrayList<>();
                     if (templateFilter.getName() != null && !templateFilter.getName().equals("")) {
                         predicates.add(
-                                criteriaBuilder.and(
-                                        criteriaBuilder.like(
-                                                criteriaBuilder.lower(
+                                cb.and(
+                                        cb.like(
+                                                cb.lower(
                                                         root.get("name")),
-                                                criteriaBuilder.lower(
-                                                        criteriaBuilder.literal(
+                                                cb.lower(
+                                                        cb.literal(
                                                                 "%" + templateFilter.getName() + "%")))));
                     }
                     if (templateFilter.getAuthor() != null && !templateFilter.getAuthor().equals("")) {
                         User user = userService.findByUsername(templateFilter.getAuthor());
-                        predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("user"), user)));
+                        predicates.add(cb.and(cb.equal(root.get("user"), user)));
                     }
                     if (templateFilter.isGenderFemale() && !templateFilter.isGenderMale()) {
-                        predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("gender"), Gender.FEMALE)));
+                        predicates.add(cb.and(cb.equal(root.get("gender"), Gender.FEMALE)));
                     }
                     if (!templateFilter.isGenderFemale() && templateFilter.isGenderMale()) {
-                        predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("gender"), Gender.MALE)));
+                        predicates.add(cb.and(cb.equal(root.get("gender"), Gender.MALE)));
                     }
                     if (templateFilter.getPriceStart() > 0 && templateFilter.getPriceStart() > 0) {
                         predicates.add(
-                                criteriaBuilder.and(
-                                        criteriaBuilder.between(root.get("price"),
+                                cb.and(
+                                        cb.between(root.get("price"),
                                                 templateFilter.getPriceStart(), templateFilter.getPriceEnd())));
                     }
-                    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+                    predicates.add(cb.and(cb.equal(root.get("allSee"), true)));
+                    return cb.and(predicates.toArray(new Predicate[predicates.size()]));
                 }, pageable));
         model.addAttribute("filter", templateFilter);
         model.addAttribute("url", "/filter");

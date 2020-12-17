@@ -18,6 +18,10 @@
             </#if>
             <input class="inp-form mt-3 form-control" type="text" name="username" placeholder="Name">
             <input class="inp-form mt-3" type="password" name="password" placeholder="Password">
+            <p>
+                <input type="checkbox" name="remember" class="mt-3">
+                <span>Remember Me</span>
+            </p>
             <#if RequestParameters.error??>
                 <div class="alert alert-danger mt-3 text-center" role="alert">
                     Invalid username or password
